@@ -60,15 +60,21 @@ export class AppComponent {
       end: new FormControl(new Date(year, month, 19))
     });
 
-    for( let i = 1; i<=this.totalDays;i++){
-        this.table.push({
-            date: new Date().setDate(new Date().getDate()+i)
-        })
-    }
+    // for( let i = 1; i<=this.totalDays;i++){
+    //     this.table.push({
+    //         date: new Date().setDate(new Date().getDate()+i)
+    //     })
+    // }
   }
 
   addEvent(type: string, event) {
-    console.log(event.value)
-    // this.events.push(`${type}: ${event.value}`);
+
+    this.table = []
+
+    for( let i = 1; i<=this.totalDays;i++){
+      this.table.push({
+          date: new Date(event.value).setDate(new Date(event.value).getDate()+i)
+      })
   }
+}
 }
