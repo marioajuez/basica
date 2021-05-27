@@ -37,14 +37,13 @@ export class AppComponent {
   date = new FormControl(new Date());
   date_ = new Date();
 
-
-  displayedColumns: string[] = ['position', 'name', 'weight'];
-  dataSource = ELEMENT_DATA;
+  table = []
+  displayedColumns: string[] = ['day', 'date', 'dailyRewards','rebuy' ,'balance'];
+  dataSource = this.table
   today;
   totalDays = 600;
-  table = []
+ 
   constructor(){
-
 
     const today = new Date();
     const month = today.getMonth();
@@ -58,13 +57,17 @@ export class AppComponent {
     this.campaignTwo = new FormGroup({
       start: new FormControl(new Date(year, month, 15)),
       end: new FormControl(new Date(year, month, 19))
-    });
+    }); 
 
-    // for( let i = 1; i<=this.totalDays;i++){
-    //     this.table.push({
-    //         date: new Date().setDate(new Date().getDate()+i)
-    //     })
-    // }
+    let aux=0
+    for( let i = 1; i<=this.totalDays;i++){
+
+        aux+=this.memberShip[0].value*(0.005)
+        this.table.push({
+            date: new Date().setDate(new Date().getDate()+i),
+            dailyRewards: aux
+        })
+    }
   }
 
   addEvent(type: string, event) {
@@ -73,7 +76,8 @@ export class AppComponent {
 
     for( let i = 1; i<=this.totalDays;i++){
       this.table.push({
-          date: new Date(event.value).setDate(new Date(event.value).getDate()+i)
+          date: new Date(event.value).setDate(new Date(event.value).getDate()+i),
+          dailyRewards: "hola"
       })
   }
 }
