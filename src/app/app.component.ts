@@ -74,11 +74,11 @@ export class AppComponent {
 
     this.table = []
 
-    for( let i = 1; i<=this.totalDays;i++){
-      this.table.push({
-          date: new Date(event.value).setDate(new Date(event.value).getDate()+i),
-          dailyRewards: "hola"
-      })
-  }
+//     for( let i = 1; i<=this.totalDays;i++){
+//       this.table.push({
+//           date: new Date(event.value).setDate(new Date(event.value).getDate()+i),
+//           dailyRewards: "hola"
+//       })
+//   }
 }
 }
