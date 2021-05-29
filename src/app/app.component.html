@@ -16,7 +16,7 @@
     <mat-form-field appearance="fill">
       <mat-label>Date initial</mat-label>
       <input matInput   name = "date" [matDatepicker]="picker" [(ngModel)]="userData.date"
-      (dateChange)="addEvent()"
+      (dateChange)="dataPicker()"
       >
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

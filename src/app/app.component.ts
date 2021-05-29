@@ -45,20 +45,32 @@ export class AppComponent {
   totalDays = 600;
 
   constructor() {
+    this.createTable();
+  }
+
+  select() {
+    this.createTable();
+  }
+  dataPicker(event?) {
+    this.createTable();
+  }
+
+  createTable(){
+    this.table = [];
     let dailyRewards = 0;
     let amount = parseInt(this.userData.membership);
     let rebuy = 0;
-    let membershipBalance = 900 - 1.5;
+    let membershipBalance = (amount*3) - (amount*0.005);
 
     for (let i = 1; i <= this.totalDays; i++) {
-      
+
       dailyRewards += amount * 0.005;
 
       if (dailyRewards >= 50) rebuy = 50;
       else rebuy = 0;
 
       this.table.push({
-        date: new Date().setDate(new Date().getDate() + i),
+        date: new Date(this.userData.date).setDate(new Date(this.userData.date).getDate() + i),
         amount: amount,
         dailyInterest: amount * 0.005,
         dailyRewards: dailyRewards,
@@ -73,17 +85,4 @@ export class AppComponent {
       } else membershipBalance += rebuy * 3 - amount * 0.005;
     }
   }
-
-  addEvent() {
-    this.table = [];
-    for (let i = 1; i <= this.totalDays; i++) {
-      this.table.push({
-        date: new Date(this.userData.date).setDate(
-          new Date(this.userData.date).getDate() + i
-        ),
-        dailyRewards: 0,
-      });
-    }
-  }
-  select() {}
 }
