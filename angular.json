@@ -123,6 +123,10 @@
               "devServerTarget": "hyperfund-calc:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
     }

@@ -1,66 +1,61 @@
 
+<!-- <form name="form" #f="ngForm">
 
-<!-- <mat-grid-list cols="1" rowHeight="100px">
-  <mat-grid-tile> -->
-    <!-- <mat-list>
-      <mat-list-item>
-        <mat-form-field appearance="fill">
-          <mat-label>Date initial</mat-label>
-          <input matInput [matDatepicker]="picker" [(ngModel)]="date_" #ctrl="ngModel">
-          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-      </mat-list-item>
-      <mat-divider></mat-divider>
-      <mat-list-item>
-      <mat-form-field appearance="fill">
-        <mat-label>Plans hyperfund</mat-label>
-        <mat-select [(value)]="selectedFood">
-          <mat-option [value]="option.value" *ngFor="let option of plans">{{ option.viewValue }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </mat-list-item>
-    <p>You selected: {{selectedFood}}</p> -->
-<!--   
-  </mat-grid-tile>
-</mat-grid-list> -->
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="text" name="email" [(ngModel)]="model.email" #email="ngModel" required email />
+        <div *ngIf="email.invalid">
+            <div *ngIf="email.errors.required">Email is required</div>
+            <div *ngIf="email.errors.email">Email must be a valid email address</div>
+        </div>
+    </div>
+</form>
+<p>{{model.email}}</p> -->
 
+<form name="form" #f="ngForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Date initial</mat-label>
+      <input matInput   name = "date" [matDatepicker]="picker" [(ngModel)]="userData.date"
+      (dateChange)="addEvent()"
+      >
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-<mat-form-field appearance="fill">
-  <mat-label>Date initial</mat-label>
-  <input matInput [matDatepicker]="picker" [(ngModel)]="date_"
-  (dateChange)="addEvent('change', $event)"
-  
-  >
-  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Starting Membership</mat-label>
+      <mat-select name="membership"  [(ngModel)]="userData.membership" (selectionChange)="select()" >
+        <mat-option [value]="option.value" *ngFor="let option of memberShip">{{ option.viewValue }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-<mat-form-field appearance="fill">
-  <mat-label>Starting Membership</mat-label>
-  <mat-select [(value)]="selectedMembership">
-    <mat-option [value]="option.value" *ngFor="let option of memberShip">{{ option.viewValue }}</mat-option>
-  </mat-select>
-</mat-form-field>
-
-<mat-form-field appearance="fill">
-  <mat-label>Membership Rewards 3x</mat-label>
-  <input matInput disabled value="{{selectedMembership *3}}">
-</mat-form-field >
-
+    <mat-form-field appearance="fill">
+    <mat-label>Membership Rewards 3x</mat-label>
+    <input matInput disabled value="{{userData.membership *3}}">
+  </mat-form-field> 
+</form>
 
 <table mat-table [dataSource]="table" class="mat-elevation-z8">
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make-gold': row.dailyRewards == 'h'}"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make-gold': row.dailyRewards >= 50}"></tr>
 
   <ng-container matColumnDef="day">
     <th mat-header-cell *matHeaderCellDef> Day </th>
-    <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+    <td mat-cell *matCellDef="let element; let i = index" > {{i+1}} </td>
   </ng-container>
   <ng-container matColumnDef="date">
     <th mat-header-cell *matHeaderCellDef> Date </th>
     <td mat-cell *matCellDef="let days"> {{days.date | date : "dd/MM/yyyy"}} </td>
+  </ng-container>
+  <ng-container matColumnDef="amount">
+    <th mat-header-cell *matHeaderCellDef> amount </th>
+    <td mat-cell *matCellDef="let val"> {{val.amount | number : '1.2'}} </td>
+  </ng-container>
+  <ng-container matColumnDef="dailyInterest">
+      <th mat-header-cell *matHeaderCellDef> daily Interest</th>
+      <td mat-cell *matCellDef="let val"> {{val.dailyInterest | number : '1.2'}} </td>
   </ng-container>
   <ng-container matColumnDef="dailyRewards">
     <th mat-header-cell *matHeaderCellDef> Daily Rewards </th>
@@ -68,11 +63,11 @@
   </ng-container>
   <ng-container matColumnDef="rebuy">
     <th mat-header-cell *matHeaderCellDef> Rebuy</th>
-    <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
+    <td mat-cell *matCellDef="let val"> {{ val.rebuy | number : '1.2'}} </td>
   </ng-container>
   <ng-container matColumnDef="balance">
     <th mat-header-cell *matHeaderCellDef> Membership Rewards Running Balance</th>
-    <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
+    <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2'}} </td>
   </ng-container>
 </table>
 <router-outlet></router-outlet>
