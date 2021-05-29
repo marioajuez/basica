@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 
 import { FormGroup, FormControl } from '@angular/forms';
 
-
-
 const ELEMENT_DATA: any[] = [
   { position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H' },
   { position: 2, name: 'Helium', weight: 4.0026, symbol: 'He' },
@@ -20,14 +18,13 @@ const ELEMENT_DATA: any[] = [
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-
   memberShip: any[] = [
     { value: '300', viewValue: 'HU 300' },
     { value: '500', viewValue: 'HU 500' },
-    { value: '1000', viewValue: 'HU 1000' }
+    { value: '1000', viewValue: 'HU 1000' },
   ];
 
   userData = {
@@ -35,68 +32,58 @@ export class AppComponent {
     membership: this.memberShip[0].value,
   };
 
-  table = []
-  displayedColumns: string[] = ['day', 'date', 'amount', 'dailyInterest', 'dailyRewards', 'rebuy', 'balance'];
+  table = [];
+  displayedColumns: string[] = [
+    'day',
+    'date',
+    'amount',
+    'dailyInterest',
+    'dailyRewards',
+    'rebuy',
+    'balance',
+  ];
   totalDays = 600;
 
   constructor() {
-
-    let dailyInterest = 0
-    let dailyRewards = 0
-    let amount = parseInt(this.userData.membership)
-
-    // let membershipBalance = 900
-
-    // let aux = 900
-
+    let dailyRewards = 0;
+    let amount = parseInt(this.userData.membership);
     let rebuy = 0;
-    let membershipBalance = 900 - 1.50
-
-    let aux = 900 -1.50
+    let membershipBalance = 900 - 1.5;
 
     for (let i = 1; i <= this.totalDays; i++) {
+      
+      dailyRewards += amount * 0.005;
 
-      dailyInterest = amount * (0.005)
-      dailyRewards += amount * (0.005)
-
-      if (dailyRewards >= 50)
-          rebuy = 50
-      else {
-          rebuy = 0
-      }
+      if (dailyRewards >= 50) rebuy = 50;
+      else rebuy = 0;
 
       this.table.push({
         date: new Date().setDate(new Date().getDate() + i),
         amount: amount,
-        dailyInterest: dailyInterest,
+        dailyInterest: amount * 0.005,
         dailyRewards: dailyRewards,
         rebuy: rebuy,
-        membershipBalance: membershipBalance
-      })
+        membershipBalance: membershipBalance,
+      });
 
       if (dailyRewards >= 50) {
-        amount +=50
-        dailyRewards -= 50
-        membershipBalance+=(rebuy*3)-(amount * (0.005));
-      }
-      else{
-        membershipBalance+=(rebuy*3)-(amount * (0.005));
-      }
+        amount += 50;
+        dailyRewards -= 50;
+        membershipBalance += rebuy * 3 - amount * 0.005;
+      } else membershipBalance += rebuy * 3 - amount * 0.005;
     }
   }
-
 
   addEvent() {
-
-    this.table = []
+    this.table = [];
     for (let i = 1; i <= this.totalDays; i++) {
       this.table.push({
-        date: new Date(this.userData.date).setDate(new Date(this.userData.date).getDate() + i),
-        dailyRewards: 0
-      })
+        date: new Date(this.userData.date).setDate(
+          new Date(this.userData.date).getDate() + i
+        ),
+        dailyRewards: 0,
+      });
     }
   }
-  select() {
-
-  }
+  select() {}
 }
