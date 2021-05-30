@@ -6,11 +6,16 @@ table{
     color: white;
 }
 
-.make-gold {
-    background-color: rgb(175, 6, 0);
+.make{
+    background-color: lightblue;
+}
+
+.marker{
+    color: crimson;
+    // font-weight: bold;
 }
 .make-gold .mat-cell {
-    color: white;
+    color: rgb(76, 68, 68);
 }
 td.mat-cell{
     border-right: rgba(0,0,0,.12) solid 1px;

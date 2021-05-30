@@ -24,7 +24,8 @@ export class AppComponent {
   memberShip: any[] = [
     { value: '300', viewValue: 'HU 300' },
     { value: '500', viewValue: 'HU 500' },
-    { value: '1000', viewValue: 'HU 1000' },
+    { value: '1000', viewValue: 'HU 1.000'},
+    { value: '10000', viewValue: 'HU 10.000'},
   ];
 
   userData = {
@@ -59,6 +60,7 @@ export class AppComponent {
     this.table = [];
     let dailyRewards = 0;
     let amount = parseInt(this.userData.membership);
+
     let rebuy = 0;
     let membershipBalance = (amount*3) - (amount*0.005);
 
@@ -66,8 +68,9 @@ export class AppComponent {
 
       dailyRewards += amount * 0.005;
 
-      if (dailyRewards >= 50) rebuy = 50;
-      else rebuy = 0;
+      rebuy = (parseFloat(((dailyRewards/50.00).toString()).split(".")[0])*50.00)
+      if (rebuy >= 2000) 
+            rebuy = 2000;
 
       this.table.push({
         date: new Date(this.userData.date).setDate(new Date(this.userData.date).getDate() + i),
@@ -79,8 +82,8 @@ export class AppComponent {
       });
 
       if (dailyRewards >= 50) {
-        amount += 50;
-        dailyRewards -= 50;
+        amount += rebuy;
+        dailyRewards -= rebuy;
         membershipBalance += rebuy * 3 - amount * 0.005;
       } else membershipBalance += rebuy * 3 - amount * 0.005;
     }
