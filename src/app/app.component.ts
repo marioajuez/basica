@@ -145,26 +145,25 @@ export class AppComponent {
   public check(event, indice){
 
 
-    console.log(event);
+    // console.log(event);
 
     // let indice_ = indice+1
     this.table[indice].isCheck = event 
     if(this.table[indice].isCheck){
 
+      console.log("reinvertir")
+
+
+        
         let rebuy = this.table[indice].rebuy;
         let amount= this.table[indice].amount + rebuy;
-        let dailyRewards = amount*0.005;
-
+        let dailyRewards = parseFloat(this.table[indice].dailyRewards) - rebuy+amount*0.005;
         let membershipBalance = this.table[indice].membershipBalance - amount*0.005 +(3*rebuy)
 
-        console.log(dailyRewards, membershipBalance,rebuy,amount);
-
-        for( let i = (indice+1) ; i < this.table.length;i++){
+        for( let i = indice+1 ; i < this.table.length;i++){
           
-
           rebuy = parseFloat(((dailyRewards/50.00).toString()).split(".")[0])*50.00
-
-
+         
           this.table[i].amount= amount;
           this.table[i].dailyInterest= amount * 0.005;
           this.table[i].dailyRewards= dailyRewards
@@ -173,22 +172,20 @@ export class AppComponent {
 
 
           if(dailyRewards >= 50) {
-            amount = this.table[indice].amount + rebuy
-            // --------------------------------------------
+            amount+=rebuy;
             dailyRewards -= rebuy;
             membershipBalance += rebuy * 3 - amount * 0.005;
           } 
           else membershipBalance += rebuy * 3 - amount * 0.005;
 
-         dailyRewards = amount*0.005;
-
+          dailyRewards+= amount * 0.005;
+        
         }
 
-        // console.log(membershipBalance);
-
-        console.log(( this.table[this.table.length-1].membershipBalance));
+    console.log(( this.table[this.table.length-1].membershipBalance));
 
     }else{
+          console.log("no reinvertir")
 
             let rebuy =parseFloat(this.table[indice].rebuy);
             let amount= parseFloat((this.table[indice].amount) + rebuy) - (rebuy);
@@ -209,19 +206,16 @@ export class AppComponent {
               dailyRewards -= rebuy;
               amount +=rebuy
               membershipBalance += rebuy * 3 - amount * 0.005;
-              
             } 
             else membershipBalance += rebuy * 3 - amount * 0.005;
 
             dailyRewards += amount * 0.005;
         }
-        // console.log((membershipBalance));
-        console.log(( this.table[this.table.length-1].membershipBalance));
+      console.log(( this.table[this.table.length-1].membershipBalance));
 
-        // console.log((membershipBalance));
     }
 
-    // this.table[indice_].isCheck = event;
+
 
    
   }
