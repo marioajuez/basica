@@ -47,6 +47,8 @@ import {OverlayModule} from '@angular/cdk/overlay';
 
 
 
+// import {MatExpansionModule} from '@angular/material/expansion';
+
 
 
 @NgModule({
@@ -56,6 +58,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
   ],
   
   exports: [
+  MatExpansionModule,
   MatNativeDateModule,
   MatSelectModule,
   MatAutocompleteModule,
@@ -68,7 +71,7 @@ import {OverlayModule} from '@angular/cdk/overlay';
   MatGridListModule,
   MatIconModule,
   MatInputModule,
-  MatListModule,
+  MatListModule, 
   MatMenuModule,
   MatDatepickerModule,
   MatRadioModule,

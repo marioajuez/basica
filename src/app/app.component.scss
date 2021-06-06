@@ -1,4 +1,9 @@
-table{
+$sm:576px;
+$md:768px;
+$lg:992px;
+$xl:1200px;
+
+table, mat-table{
     width: 100%;
 }
 .mat-header-cell{
@@ -9,6 +14,8 @@ table{
 .make{
     background-color: lightblue;
 }
+
+
 
 .marker{
     color: crimson;
@@ -45,16 +52,13 @@ mat-grid-tile {
     background: lightblue;
 }
 
-$sm:576px;
-$md:768px;
-$lg:992px;
-$xl:1200px;
 
-@media only screen and (max-width: $md) {
-    mat-form-field {
-        width: 100%;
-    }
-}
+
+// @media only screen and (max-width: $md) {
+//     mat-form-field {
+//         width: 100%;
+//     }
+// }
 
 
   
@@ -69,6 +73,71 @@ $xl:1200px;
   }
 
   mat-form-field{
-  padding: 5px 0px 25px 2px; 
+    padding: 5px 0px 25px 2px; 
   }
 
+
+  .sticky{
+    position: fixed;
+    top: 0px;
+    overflow: hidden;
+    z-index: 99999;
+    width: auto;
+    transform: translateY(50px);
+    transition: all 0.9s ease-out 0s;
+    background: white;
+    padding: 0;
+
+  }
+ 
+
+
+
+
+th.mat-header-cell{
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.color-form{
+  // width: auto;
+  // background: white;
+  // position: sticky;
+  // top: 0;
+  // z-index: 999;
+  // display: flex;
+}
+
+.form-sticky{
+  // width: auto;
+  // background: white;
+  // position: sticky;
+  // top: 0;
+  // z-index: 999;
+  // display: flex;
+}
+
+
+.example-container .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.example-right-align {
+  text-align: right;
+}
+
+input.example-right-align::-webkit-outer-spin-button,
+input.example-right-align::-webkit-inner-spin-button {
+  display: none;
+}
+
+input.example-right-align {
+  -moz-appearance: textfield;
+}
+
+.example-container {
+  height: 400px;
+  width: auto;
+  max-width: 100%;
+  overflow: auto;
+}

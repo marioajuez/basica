@@ -1,137 +1,114 @@
 
-<!-- <form name="form" #f="ngForm">
+<div class="form-sticky">
+    <form name="form" #f="ngForm">
+        <mat-form-field appearance="fill">
+          <mat-label>Date initial</mat-label>
+          <input matInput   
+            name = "date"
+            [matDatepicker]="picker"
+            [(ngModel)]="userData.date"
+            (dateChange)="dataPicker($event)"
 
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="text" name="email" [(ngModel)]="model.email" #email="ngModel" required email />
-        <div *ngIf="email.invalid">
-            <div *ngIf="email.errors.required">Email is required</div>
-            <div *ngIf="email.errors.email">Email must be a valid email address</div>
-        </div>
-    </div>
-</form>
-<p>{{model.email}}</p> -->
+            min="{{userData.date | date: 'yyyy/MM/dd'}}"
+            required
+            #date="ngModel"
+          >
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
 
-<form name="form" #f="ngForm">
+          <mat-error *ngIf="date.invalid && (date.dirty || date.touched)">
 
-    <mat-form-field appearance="fill">
-      <mat-label>Date initial</mat-label>
-      <input matInput   
-        name = "date"
-        [matDatepicker]="picker"
-        [(ngModel)]="userData.date"
-        (dateChange)="dataPicker($event)"
-
-        min="{{userData.date | date: 'yyyy/MM/dd'}}"
-        required
-        #date="ngModel"
-      >
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-
-      <mat-error *ngIf="date.invalid && (date.dirty || date.touched)">
-
-        <div *ngIf="date.errors?.required">
-              campo Obligatorio
-        </div>
-
-          <!-- <div *ngIf="membership.errors.minlength">
-            Name must be at least 4 characters long.
-          </div> -->
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill">
-      <mat-label>Starting Membership</mat-label>
-      <input matInput 
-        name = "membership"
-        (input)= "triggerEventKey($event)"
-        [(ngModel)]="userData.membership" 
-        value="{{userData.membership}}"
-
-        #membership="ngModel"
-        type= "number"
-        required
-        min = "3" 
-       
-      >
-      
-      <mat-error *ngIf="membership.invalid && (membership.dirty || membership.touched)">
-
-        <div *ngIf="membership.errors.min">
-               Number should be between 300 and 100
-        </div>
-        <div *ngIf="membership.errors?.required">
-            Campo Obligatorio
-        </div>
-        <!--  <div *ngIf="membership.errors.minlength">
-            Name must be at least 4 characters long.
-          </div> -->
-      </mat-error>
-    </mat-form-field>
-    
+                <div *ngIf="date.errors?.required">
+                      campo Obligatorio
+                </div>
+          </mat-error>
+        </mat-form-field>
 
 
+        <mat-form-field appearance="fill" floatLabel="always">
+          <mat-label>Starting Membership</mat-label>
+          <input matInput 
+            class="example-right-align" 
+            placeholder="0"
+            name = "membership"
+            (input)= "triggerEventKey($event)"
+            [(ngModel)]="userData.membership" 
+            value="{{userData.membership}}"
 
-      <!-- <div *ngIf="membership.errors?.forbiddenName">
-        Name cannot be Bob.
-      </div> -->
-  <!-- </div> -->
-  
-
- 
-
-
-    <!-- <p *ngIf="membership.errors?.required">
-      323
-    </p> -->
-
-    <!-- <div >
-      <div *ngIf="membership.errors?.required">
-        Name is required.
-      </div>
-      <div *ngIf="membership.errors?.minlength">
-        Name must be at least 4 characters long.
-      </div>
-      <div *ngIf="membership.errors?.forbiddenName">
-        Name cannot be Bob.
-      </div>
-    </div> -->
-
-
-    
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Starting Membership</mat-label>
-      <mat-select name="membership"  [(ngModel)]="userData.membership" (selectionChange)="select()" >
-        <mat-option [value]="option.value" *ngFor="let option of memberShip">{{ option.viewValue }}</mat-option>
-      </mat-select>
-    </mat-form-field> -->
-
-    <mat-form-field appearance="fill">
-    <mat-label>Membership Rewards 3x</mat-label>
-    <input matInput disabled value="{{userData.membership}}">
-  </mat-form-field> 
-</form>
-
-<!-- <p>{{f.form.valid}}</p> -->
-
-<!-- <p>{{userData.membership.length | json}}</p> -->
-
-<table mat-table [dataSource]="table" class="mat-elevation-z8" *ngIf="f.form.valid" >
-
- 
-    <tr  mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" ></tr>  
-    <!-- <tr mat-row   *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make': row.dailyRewards >= 50}"></tr> -->
-    <!-- <ng-container *ngIf="userData.membership != null"> -->
-            <!-- <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr> -->
-    <!-- </ng-container> -->
-            <tr mat-row  *matRowDef="let row; columns: displayedColumns;"></tr>
+            #membership="ngModel"
+            type= "number"
+            required
+            min = "3" 
+          >
+          <span matPrefix>$&nbsp;</span>
+          <span matSuffix>.00</span>
           
-      
+          <mat-error *ngIf="membership.invalid && (membership.dirty || membership.touched)">
+            <div *ngIf="membership.errors.min">
+                  Number should be between 300 and 100
+            </div>
+            <div *ngIf="membership.errors?.required">
+                Campo Obligatorio
+            </div>
+          </mat-error>
+        </mat-form-field>
 
+          <mat-form-field appearance="fill">
+            <mat-label>Membership Rewards 3x</mat-label>
+            <input matInput disabled value="{{membership3X | number:'1.2'}}">
+          </mat-form-field> 
+
+          <mat-form-field appearance="fill">
+          <mat-label>Recompense Final</mat-label>
+          <input matInput disabled value="{{ recompenseFinal | number:'1.2'}}">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>¿Rebuy?</mat-label>
+          <mat-select value = "1"  name ="select" [(ngModel)]="select" (selectionChange)="applyFilter()">
+            <mat-option value= '1' >{{ 'all' | titlecase }}</mat-option>
+            <mat-option value= '50' >{{ 'yes' | titlecase }}</mat-option>
+            <mat-option value= '0'>{{ 'no'| titlecase}}</mat-option>
+
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="search__form_field" appearance="outline">
+          <mat-label>Departure station</mat-label>
+          <input type="text"
+                 aria-label="Departure station"
+                 name = "station"
+                 matInput
+                 (keyup)="applyFilter()"
+                 [(ngModel)]="departureStation" 
+          >
+        </mat-form-field>
+</form>
+
+</div>
+
+
+
+
+<!-- <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="f.form.valid" > -->
+
+  <mat-form-field>
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilters($event)" placeholder="Ex. Mia" #input>
+  </mat-form-field>
+
+<div class=" mat-elevation-z8">
+  <table  mat-table [dataSource]="dataSource">
+
+ 
+    <tr  mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+
+    <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr>
+    <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make': row.dailyRewards >= 50}"></tr> -->
+          <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
             <ng-container matColumnDef="day">
               <th mat-header-cell *matHeaderCellDef> Day </th>
-              <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
+              <td mat-cell *matCellDef="let val"> {{val.days}} </td>
             </ng-container>
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef> Date </th>
@@ -155,15 +132,16 @@
             </ng-container>
             <ng-container matColumnDef="optionRebuy">
               <th mat-header-cell *matHeaderCellDef>¿Rebuy?</th>
-              <td mat-cell *matCellDef="let val; let indice = index"> 
-                <ng-container *ngIf="val.rebuy >= 50">
-                    <mat-checkbox checked = "true" (change)="check($event.checked, indice)" color="primary" ></mat-checkbox>
-                </ng-container>
+              <td mat-cell *matCellDef="let val"> 
+                  <mat-checkbox checked = "true" (change)="check($event)" color="primary" [class.hide]="val.rebuy < 50"></mat-checkbox>
               </td>
             </ng-container>
             <ng-container matColumnDef="balance">
               <th mat-header-cell *matHeaderCellDef> Membership Rewards Running Balance</th>
               <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2-2'}} </td>
             </ng-container>
+
+
 </table>
+</div>
 <router-outlet></router-outlet>

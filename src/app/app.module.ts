@@ -15,13 +15,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     AppRoutingModule,
-
     BrowserAnimationsModule,
 
     ComponentsModule,
 
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+
+
   
   ],
   providers: [],
