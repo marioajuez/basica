@@ -1,6 +1,6 @@
 import { CdkVirtualForOf } from '@angular/cdk/scrolling';import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs/operators';
 
@@ -31,6 +31,9 @@ export class AppComponent {
     { value: '10000', viewValue: 'HU 10.000'},
   ];
 
+  @ViewChild('f', { static: true }) ngForm: NgForm;
+
+
   userData = {
     date: new Date(),
     membership: "300"
@@ -43,6 +46,7 @@ export class AppComponent {
   public membership3X = parseFloat(this.userData.membership)*3.00;
   public recompenseFinal;
   public days;
+  public isCheck = false
   table: any[] = [];
   tableFooterColumns: string[] = ['total'];
 
@@ -67,17 +71,44 @@ export class AppComponent {
   ];
   totalDays = 600;
  
-
-  public departureStation = '';
-  public select = ''
+  select = "all"
+  filterSelect = ""
 
   constructor() {
       this.withRebuyAll();
       this.dataSource.data = this.table
       // this.dataSource = new MatTableDataSource(this.table)
-      this.dataSource.filterPredicate = this.getFilterPredicate();
-      // this.matTable.renderRows();
+      this.dataSource.filterPredicate = this.createFilter();
     }
+
+    ngOnInit() {
+      this.ngForm.form.valueChanges.subscribe(form => {
+
+        this.filterSelect = form.select;
+        this.dataSource.filter = JSON.stringify(this.filterSelect)
+      })
+    }
+
+    createFilter(){
+      let filterFunction = function(data, filter) {
+  
+        let searchTerms = JSON.parse(filter);
+        // return data.name_.toLowerCase() == 'john';
+
+        if(searchTerms == 'all') {
+            return String(data.isCheck).includes('true')
+              || String(data.isCheck).includes('false');
+        }
+        else{
+        return String(data.isCheck).includes(filter)
+        };
+
+
+      }
+      return filterFunction;
+    }
+
+
 
 
   applyFilter() {
@@ -85,36 +116,6 @@ export class AppComponent {
     const filterValue = this.select
     this.dataSource.filter = filterValue.trim().toLowerCase();
 }
-
-getFilterPredicate(){
-
-  return (row, filter) => {
-
-    if ('0'.includes(filter.toLowerCase())) {
-          return !row.rebuy;
-    }
-    if ('50'.includes(filter.toLowerCase())) {
-          return row.rebuy;
-    }
-    if ('1'.includes(filter.toLowerCase())) {
-      return true
-    }
-  }
-}
-
-    // row.rebuy == filters
-
-    // JSON.stringify(row.rebuy).indexOf(filters.trim().toLocaleLowerCase()) !=-1;
-    // console.log(row.rebuy, filters)
-
-    // row.rebuy.indexOf(filters) !== -1;
-
-    // row.rebuy == filters;
- 
-    // const matchFilter = [];
-    // console.log();
-
-    // console.log(row, filters);
 
 applyFilters(event) {
   const filterValue = event.target.value;
@@ -132,10 +133,6 @@ applyFilters(event) {
          this.updateTable();
     }, 1000);
   }
-
-
-
-
 
 
 
@@ -180,11 +177,13 @@ applyFilters(event) {
   }
 
   public withRebuyAll(){
+
     let dailyRewards = 0;
     let amount = parseFloat(this.userData.membership);
 
     let rebuy = 0;
     let membershipBalance = (amount*3) - (amount*0.005);
+    let isCheck = false
 
     for (let i = 1; i <= this.totalDays; i++) {
 
@@ -193,6 +192,10 @@ applyFilters(event) {
       rebuy = (parseFloat(((dailyRewards/50.00).toString()).split(".")[0])*50.00)
       if (rebuy >= 2000) 
             rebuy = 2000;
+        if (dailyRewards >= 50) {   
+              isCheck= true
+        }
+
 
       this.table.push({
         days: i,
@@ -202,10 +205,11 @@ applyFilters(event) {
         dailyRewards: dailyRewards,
         rebuy: rebuy,
         membershipBalance: membershipBalance,
-        isCheck: true
+        isCheck: isCheck
       });
 
       if (dailyRewards >= 50) {
+        isCheck= false
         amount += rebuy;
         dailyRewards -= rebuy;
         membershipBalance += rebuy * 3 - amount * 0.005;
@@ -215,23 +219,19 @@ applyFilters(event) {
   }
 
 
-  public check(event){
+  public check(event, indice){
 
-    const idCheck = parseFloat(event.source.id.replace(/\D/g, ''))-1;
 
+    const idCheck = indice-1;
     this.table[idCheck].isCheck = event.checked
 
-    console.log(event.checked,idCheck );
-
     if(this.table[idCheck].isCheck){
-      
       this.invert(idCheck);
-    }else{
-      // const filterValue = '50'
-      // this.dataSource.filter = filterValue.trim().toLowerCase();
+      // this.dataSource.data = this.dataSource.data;
 
+    }else{
       this.retire(idCheck);
- 
+      this.dataSource.data = this.dataSource.data;
     }
   }
 
@@ -240,17 +240,29 @@ applyFilters(event) {
 
     // console.log(this.dataSource.data)
 
+    console.log("retirar")
+
+    // console.log(this.dataSource.data[0].amount)
+
     this.rebuy =this.table[indice].rebuy;
     this.amount= (this.table[indice].amount + this.rebuy) - (this.rebuy);
     this.dailyRewards = (this.table[indice].dailyRewards - this.rebuy) + this.amount*0.005;
     this.membershipBalance = this.table[indice].membershipBalance - this.amount*0.005 +(3* this.rebuy)
+    this.isCheck = this.table[indice].isCheck
 
 
-      
+
       for( let i = indice+1; i < this.table.length;i++){
 
         this.rebuy = parseFloat(((this.dailyRewards/50.00).toString()).split(".")[0])*50.00
+        // this.isCheck = false
 
+        if (this.dailyRewards >= 50) {   
+                this.isCheck= true
+         }
+
+        this.table[i].isCheck = this.isCheck;
+        this.table[i].days = i+1 ;
         this.table[i].amount= this.amount;
         this.table[i].dailyInterest= this.amount * 0.005;
         this.table[i].dailyRewards= this.dailyRewards
@@ -258,17 +270,17 @@ applyFilters(event) {
         this.table[i].membershipBalance = this.membershipBalance
 
         if(this.dailyRewards >= 50) {
+          this.isCheck = false
           this.dailyRewards -= this.rebuy;
           this.amount +=this.rebuy
           this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
         } 
-        else this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
+        else this.membershipBalance += this.rebuy * 3 - this.amount * 0.005
+
         this.dailyRewards += this.amount * 0.005;
       }
       this.recompenseFinal= this.table[this.table.length -1].membershipBalance
 
-      const filterValue = '50';
-      this.dataSource.filter = filterValue.trim().toLowerCase();
       console.log((this.table[this.table.length-1].membershipBalance));
   }
 
@@ -279,14 +291,18 @@ applyFilters(event) {
     this.amount= this.table[indice].amount + this.rebuy;
     this.dailyRewards = (this.table[indice].dailyRewards - this.rebuy )+ this.amount*0.005;
     this.membershipBalance = this.table[indice].membershipBalance - this.amount*0.005 +(3*this.rebuy)
+    this.isCheck = this.table[indice].isCheck;
 
 
     for( let i = indice+1 ; i < this.table.length;i++){
         
         this.rebuy = parseFloat(((this.dailyRewards/50.00).toString()).split(".")[0])*50.00
+        if (this.dailyRewards >= 50) {   
+            this.isCheck= true
+        }
 
-         
-        // this.table[i].days = this.days++;
+        this.table[i].isCheck = this.isCheck;
+        this.table[i].days = i+1 ;
         this.table[i].amount= this.amount;
         this.table[i].dailyInterest= this.amount * 0.005;
         this.table[i].dailyRewards= this.dailyRewards
@@ -294,6 +310,7 @@ applyFilters(event) {
         this.table[i].membershipBalance = this.membershipBalance
 
         if(this.dailyRewards >= 50) {
+          this.isCheck= false
           this.amount+=this.rebuy;
           this.dailyRewards -= this.rebuy;
           this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
