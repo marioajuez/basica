@@ -122,7 +122,11 @@
             <ng-container matColumnDef="optionRebuy">
               <th mat-header-cell *matHeaderCellDef>¿Rebuy?</th>
               <td mat-cell *matCellDef="let val"> 
-                  <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days)" color="primary" [class.hide]="val.rebuy < 50"></mat-checkbox>
+                  <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days)" color="primary" [class.hide]="val.rebuy < 50">
+                  </mat-checkbox>
+                  <!-- <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days)" color="primary">
+                    {{val.isCheck}}
+                  </mat-checkbox> -->
               </td>
             </ng-container>
             <ng-container matColumnDef="balance">
