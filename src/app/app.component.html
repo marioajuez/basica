@@ -1,6 +1,38 @@
 
+    <ng-container *ngIf="dataSource.filteredData.length == 0" >
+
+      <!-- *ngIf="dataSource.filteredData.length == 0" -->
+      <h1>Nose</h1>
+
+  </ng-container>
 <div class="form-sticky">
     <form name="form" #f="ngForm">
+
+      <mat-accordion>
+        <mat-expansion-panel hideToggle>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              This is the expansion title
+            </mat-panel-title>
+            <mat-panel-description>
+              This is a summary of the content
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>This is the primary content of the panel.</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Self aware panel
+            </mat-panel-title>
+            <mat-panel-description>
+              Currently I am {{panelOpenState ? 'open' : 'closed'}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <p>I'm visible because I am open</p>
+        </mat-expansion-panel>
+      </mat-accordion>
         <mat-form-field appearance="fill">
           <mat-label>Date initial</mat-label>
           <input matInput   
@@ -79,62 +111,70 @@
 
 
 
+
+
 <!-- <table  mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="f.form.valid" > -->
 
-  <mat-form-field>
-    <mat-label>Filter</mat-label>
-    <input matInput (keyup)="applyFilters($event)" placeholder="Ex. Mia" #input>
-  </mat-form-field>
+
 
 <div class=" mat-elevation-z8">
   <table  mat-table [dataSource]="dataSource">
 
- 
-    <tr  mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-
+    <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
     <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr>
+    <tr mat-footer-row *matFooterRowDef="['disclaimer']" [class.hide]="dataSource.filteredData.length != 0"></tr>
     <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make': row.dailyRewards >= 50}"></tr> -->
-          <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
+      
             <ng-container matColumnDef="day">
               <th mat-header-cell *matHeaderCellDef> Day </th>
               <td mat-cell *matCellDef="let val"> {{val.days}} </td>
             </ng-container>
+
             <ng-container matColumnDef="date">
               <th mat-header-cell *matHeaderCellDef> Date </th>
               <td mat-cell *matCellDef="let days"> {{days.date | date : "dd/MM/yyyy"}} </td>
             </ng-container>
+
             <ng-container matColumnDef="amount">
               <th mat-header-cell *matHeaderCellDef> amount </th>
               <td mat-cell *matCellDef="let val"> {{val.amount | number:'1.2'}}</td>
             </ng-container>
+
             <ng-container matColumnDef="dailyInterest">
                 <th mat-header-cell *matHeaderCellDef> daily Interest</th>
                 <td mat-cell *matCellDef="let val"> {{val.dailyInterest | number : '1.2'}} </td>
             </ng-container>
+
             <ng-container matColumnDef="dailyRewards" >
               <th mat-header-cell *matHeaderCellDef> Daily Rewards </th>
               <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
             </ng-container>
+
             <ng-container matColumnDef="rebuy">
               <th mat-header-cell *matHeaderCellDef> Rebuy</th>
               <td mat-cell *matCellDef="let val"   [ngClass]="{'marker': val.rebuy >= 50}"> {{ val.rebuy | number : '1.2'}} </td>
             </ng-container>
+
             <ng-container matColumnDef="optionRebuy">
               <th mat-header-cell *matHeaderCellDef>¿Rebuy?</th>
               <td mat-cell *matCellDef="let val"> 
                   <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days)" color="primary" [class.hide]="val.rebuy < 50">
                   </mat-checkbox>
-                  <!-- <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days)" color="primary">
-                    {{val.isCheck}}
-                  </mat-checkbox> -->
               </td>
+
             </ng-container>
+
             <ng-container matColumnDef="balance">
               <th mat-header-cell *matHeaderCellDef> Membership Rewards Running Balance</th>
               <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2-2'}} </td>
             </ng-container>
 
-
+            <ng-container matColumnDef="disclaimer" >
+              <td mat-footer-cell *matFooterCellDef colspan="12" >
+                No data matching the filter
+              </td>
+            </ng-container>
+          
 </table>
 </div>
 <router-outlet></router-outlet>
