@@ -141,3 +141,31 @@ input.example-right-align {
   max-width: 100%;
   overflow: auto;
 }
+
+.message-block .error-message {
+  // Hidden by default
+  display: none;
+}
+.message-block .error-message:first-child {
+  display: block;
+}
+
+
+::ng-deep.mat-form-field-disabled{
+  padding: 0 !important;
+  // position: inherit;
+}
+
+::ng-deep.mat-form-field-disabled > .mat-form-field-wrapper{
+  // padding: 0 !important;
+  margin-bottom: -1.25em;
+}
+// mat-form-field{
+
+// }
+
+// mat-expansion-panel {
+//   mat-expansion-panel-header {
+//     height: auto!important; 
+//   }
+// }

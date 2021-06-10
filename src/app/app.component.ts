@@ -26,6 +26,9 @@ export interface Table {
 export class AppComponent {
   @ViewChild(MatTable) matTable: MatTable<any>;
 
+
+  showTable= false
+
   panelOpenState = false;
   memberShip: any[] = [
     { value: '300', viewValue: 'HU 300' },
@@ -35,6 +38,7 @@ export class AppComponent {
   ];
 
   @ViewChild('f', { static: true }) ngForm: NgForm;
+
 
   userData = {
     date: new Date(),
@@ -50,7 +54,6 @@ export class AppComponent {
   public days;
   public isCheck = false;
   table: any[] = [];
-  tableFooterColumns: string[] = ['total'];
 
   public dataSource = new MatTableDataSource();
   // public dataSource
@@ -72,6 +75,9 @@ export class AppComponent {
   select = 'all';
   filterSelect = '';
 
+
+
+
   constructor() {
     this.withRebuyAll();
     this.dataSource.data = this.table;
@@ -88,7 +94,6 @@ export class AppComponent {
   createFilter() {
     let filterFunction = function (data, filter) {
 
-      // console.log(data);
       let searchTerms = JSON.parse(filter);
       if (searchTerms == 'all') {
         return (
@@ -106,13 +111,24 @@ export class AppComponent {
   public triggerEventKey(event: any) {
     if (this.userData.membership != null)
       this.membership3X = parseFloat(this.userData.membership) * 3.0;
-    else this.membership3X = 0;
+    else 
+      this.membership3X = 0;
 
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
       this.select = "all"
       this.updateTable();
+
+      // this.table[0].amount
+      // if(isNaN(this.table[0].amount) || this.table[0].amount ){
+
+
+      // }
+
+     
     }, 1000);
+
+    
   }
 
   initilizateTable() {
