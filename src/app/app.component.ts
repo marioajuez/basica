@@ -61,6 +61,7 @@ export class AppComponent {
   timeout: any = null;
 
   public displayedColumns: string[] = [
+    '#',
     'day',
     'date',
     'amount',
@@ -74,84 +75,16 @@ export class AppComponent {
 
   select = 'all';
   filterSelect = '';
-
-
-
+  
+  optionRebuy = ""
 
   constructor() {
-    this.withRebuyAll();
+    this.initilizateTable();
     this.dataSource.data = this.table;
     this.dataSource.filterPredicate = this.createFilter();
   }
 
-  ngOnInit() {
-    this.ngForm.form.valueChanges.subscribe((form) => {
-      this.filterSelect = form.select;
-      this.dataSource.filter = JSON.stringify(this.filterSelect);
-    });
-  }
-
-  createFilter() {
-    let filterFunction = function (data, filter) {
-
-      let searchTerms = JSON.parse(filter);
-      if (searchTerms == 'all') {
-        return (
-          String(data.isCheck).includes('true') ||
-          String(data.isCheck).includes('false')
-        );
-      } else {
-        return String(data.isCheck).includes(filter) && data.dailyRewards >= 50;
-      }
-    };
-    return filterFunction;
-  }
-
-
-  public triggerEventKey(event: any) {
-    if (this.userData.membership != null)
-      this.membership3X = parseFloat(this.userData.membership) * 3.0;
-    else 
-      this.membership3X = 0;
-
-    clearTimeout(this.timeout);
-    this.timeout = setTimeout(() => {
-      this.select = "all"
-      this.updateTable();
-
-      // this.table[0].amount
-      // if(isNaN(this.table[0].amount) || this.table[0].amount ){
-
-
-      // }
-
-     
-    }, 1000);
-
-    
-  }
-
-  initilizateTable() {
-    // this.withoutRebuyAll();
-  }
-
-  public check(event, indice) {
-    setTimeout(() => {
-      const idCheck = indice - 1;
-      this.table[idCheck].isCheck = event.checked;
-
-      if (this.table[idCheck].isCheck) {
-        this.invert(idCheck);
-        this.dataSource.data = this.dataSource.data;
-      } else {
-        this.retire(idCheck);
-        this.dataSource.data = this.dataSource.data;
-      }
-    }, 250);
-  }
-
-
-  public withRebuyAll() {
+    public initilizateTable() {
     let dailyRewards = 0;
     let amount = parseFloat(this.userData.membership);
 
@@ -190,6 +123,127 @@ export class AppComponent {
     }
     this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
   }
+
+
+
+  rebuyNever(){
+    this.membershipBalance = 0
+    this.dailyRewards = 0;
+    this.amount = parseFloat(this.userData.membership);
+    this.rebuy = 0;
+    this.membershipBalance = this.amount * 3 - this.amount * 0.005;
+    
+    this.table.forEach ( (element,index) =>{
+      this.dailyRewards += this.amount * 0.005;
+      this.rebuy = parseFloat((this.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
+      if (this.rebuy >= 2000) this.rebuy = 2000;
+
+      element.isCheck= false
+      element.date = new Date(this.userData.date).setDate(new Date(this.userData.date).getDate() + (index + 1)),
+      element.amount = this.amount,
+      element.dailyInterest = this.amount * 0.005,
+      element.dailyRewards = this.dailyRewards,
+      element.rebuy = this.rebuy
+      element.membershipBalance = this.membershipBalance
+
+      if (this.dailyRewards >= 50) {
+        this.amount = parseFloat(this.userData.membership);
+        this.dailyRewards -= this.rebuy;
+        this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
+      } else  this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
+    });
+    this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
+    this.dataSource.data = this.dataSource.data;
+  }
+
+
+  rebuyAlways(){
+    this.membershipBalance = 0
+    this.dailyRewards = 0;
+    this.amount = parseFloat(this.userData.membership);
+    this.rebuy = 0;
+    this.membershipBalance = this.amount * 3 - this.amount * 0.005;
+    let isCheck = false;
+    
+    
+    this.table.forEach ( (element,index) =>{
+      this.dailyRewards += this.amount * 0.005;
+      this.rebuy = parseFloat((this.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
+      if (this.rebuy >= 2000) this.rebuy = 2000;
+      if (this.dailyRewards >= 50)  isCheck = true;
+      
+      element.isCheck= isCheck
+      element.date = new Date(this.userData.date).setDate(new Date(this.userData.date).getDate() + (index + 1)),
+      element.amount = this.amount,
+      element.dailyInterest = this.amount * 0.005,
+      element.dailyRewards = this.dailyRewards,
+      element.rebuy = this.rebuy
+      element.membershipBalance = this.membershipBalance
+
+      if (this.dailyRewards >= 50) {
+        isCheck = false;
+        this.amount += this.rebuy;
+        this.dailyRewards -= this.rebuy;
+        this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
+      } else  this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
+    });
+    this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
+    this.dataSource.data = this.dataSource.data;
+  }
+
+  ngOnInit() {
+    this.ngForm.form.valueChanges.subscribe((form) => {
+      this.filterSelect = form.select;
+      this.dataSource.filter = JSON.stringify(this.filterSelect);
+    });
+  }
+
+  createFilter() {
+    let filterFunction = function (data, filter) {
+
+      let searchTerms = JSON.parse(filter);
+      if (searchTerms == 'all') {
+        return (
+          String(data.isCheck).includes('true') ||
+          String(data.isCheck).includes('false')
+        );
+      } else {
+        return String(data.isCheck).includes(filter) && data.dailyRewards >= 50;
+      }
+    };
+    return filterFunction;
+  }
+
+
+  public triggerEventKey(event: any) {
+    if (this.userData.membership != null)
+      this.membership3X = parseFloat(this.userData.membership) * 3.0;
+    else 
+      this.membership3X = 0;
+
+    clearTimeout(this.timeout);
+    this.timeout = setTimeout(() => {
+      this.select = "all"
+      this.updateTable();
+    }, 1000);
+  }
+
+  public check(event, indice) {
+    setTimeout(() => {
+      const idCheck = indice - 1;
+      this.table[idCheck].isCheck = event.checked;
+
+      if (this.table[idCheck].isCheck) {
+        this.invert(idCheck);
+        this.dataSource.data = this.dataSource.data;
+      } else {
+        this.retire(idCheck);
+        this.dataSource.data = this.dataSource.data;
+      }
+    }, 250);
+  }
+
+
 
   public withoutRebuyAll() {
     let dailyRewards = 0;
@@ -309,6 +363,8 @@ export class AppComponent {
   }
 
   updateTable() {
+
+
     this.rebuy = 0;
     this.amount = parseFloat(this.userData.membership);
     this.dailyRewards = 0;
@@ -336,10 +392,17 @@ export class AppComponent {
         this.dailyRewards -= this.rebuy;
         this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
       } else this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
+
+      this.dataSource.data = this.dataSource.data;
     });
 
     this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
   }
+
+
+
+
+
   dataPicker(event?) {
     this.table.forEach((element, index) => {
       element.date = new Date(this.userData.date).setDate(

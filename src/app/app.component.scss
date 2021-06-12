@@ -63,9 +63,16 @@ mat-grid-tile {
 
   
  ::ng-deep.mat-form-field-disabled .mat-form-field-underline{
-    border-bottom: 1px dotted;
+    // border-bottom: 1px dotted;
     
   } 
+  .mat-accordion> .mat-expansion-panel-spacing:last-child, .mat-accordion > mat-expansion-panel{
+    margin-bottom: 20px;
+  }
+
+  // mat-expansion-panel{
+  //   margin-bottom: 20px;
+  // }
 
 
   .hide {
@@ -73,8 +80,11 @@ mat-grid-tile {
   }
 
   mat-form-field{
-    padding: 5px 0px 25px 2px; 
+    // padding: 5px 0px 25px 2px; 
+    padding:0;
   }
+
+
 
 
   .sticky{
@@ -160,12 +170,9 @@ input.example-right-align {
   // padding: 0 !important;
   margin-bottom: -1.25em;
 }
-// mat-form-field{
 
-// }
+::ng-deep.mat-form-field-appearance-fill .mat-form-field-flex {
+  background: white !important;
+  /* background-color: rgba(0,0,0,.04); */
+}
 
-// mat-expansion-panel {
-//   mat-expansion-panel-header {
-//     height: auto!important; 
-//   }
-// }
