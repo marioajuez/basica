@@ -7,6 +7,8 @@
                             
           <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
 
+            <!-- <p>{{ returnInvestmentDate() | date : "dd/MM/yyyy" }}</p> -->
+
             <mat-form-field appearance="fill">
               <mat-label>Membership Rewards 3x</mat-label>
               <input matInput disabled value="{{membership3X | number:'1.2'}}">
@@ -100,7 +102,7 @@
 </form>
 </div>
 <!-- example-container -->
-<div class=" mat-elevation-z8 example-container">
+<div class=" mat-elevation-z8 ">
   <table  mat-table [dataSource]="dataSource">
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
@@ -109,7 +111,6 @@
     <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make': row.dailyRewards >= 50}"></tr> -->
       
 
-    
             <ng-container matColumnDef="#">
               <th mat-header-cell *matHeaderCellDef [class.hide]="select =='all' || ''">#</th>
               <td mat-cell [class.hide]="select =='all' || '' " *matCellDef="let i=index" >{{i+1}} </td>
