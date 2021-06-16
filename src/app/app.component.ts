@@ -7,9 +7,9 @@ interface dataTable{
   date?:any,
   amount:number,
   dailyInterest?:number,
-  dailyRewards:number,
-  membershipBalance:number,
-  rebuy:number,
+  dailyRewards?:number,
+  membershipBalance?:number,
+  rebuy?:number,
   isCheck?:boolean,
   index?:number
 }
@@ -21,23 +21,16 @@ interface dataTable{
 })
 export class AppComponent {
 
-  memberShip: any[] = [
-    { value: '300', viewValue: 'HU 300' },
-    { value: '500', viewValue: 'HU 500' },
-    { value: '1000', viewValue: 'HU 1.000' },
-    { value: '10000', viewValue: 'HU 10.000' },
-  ];
-
-  @ViewChild('f', { static: true }) ngForm: NgForm;
+@ViewChild('f', { static: true }) ngForm: NgForm;
   userData = {
     date: new Date(),
     membership: '300',
   };
 
-// ----- variables to display in view (template)---
+// ----- variables to display in view (template)  ---
   public membership3X = parseFloat(this.userData.membership) * 3.0;
   public recompenseFinal;
-// ------
+// ------------------------
 
   table: dataTable[]= [];
   public dataSource = new MatTableDataSource();
@@ -47,14 +40,14 @@ export class AppComponent {
   select = 'all';
   filterSelect = '';
   optionRebuy = ""
-
   timeout: any = null;
 
-// --------- variables to perform calculations ------------
+// --------- variables to store calculations ------------
   private rebuy;
   private amount;
   private dailyRewards;
   private membershipBalance;
+// --------------------------
 
   constructor() {
     this.initilizateTable();
@@ -70,54 +63,39 @@ export class AppComponent {
     });
   }
 
+
   protected initilizateTable() {
 
     this.amount = parseFloat(this.userData.membership);
     this.membershipBalance = this.amount * 3 - this.amount * 0.005;
     this.dailyRewards =  this.amount * 0.005;
     this.rebuy =parseFloat((this.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
-  
-    for (let i = 1; i <= this.totalDays; i++) {
-  
-      if (this.rebuy >= 2000) this.rebuy = 2000;
-  
-      this.table.push({
-        days: i,
-        date: new Date(this.userData.date).setDate(
-          new Date(this.userData.date).getDate() + i
-        ),
+
+    this.calculate({
         amount: this.amount,
-        dailyInterest: this.amount * 0.005,
         dailyRewards: this.dailyRewards,
-        rebuy: this.rebuy,
         membershipBalance: this.membershipBalance,
-        isCheck: true,
-      });
-  
-      if (this.dailyRewards >= 50) {
-        this.amount += this.rebuy;
-        this.dailyRewards -= this.rebuy;
-        this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
-      } else this.membershipBalance += this.rebuy * 3 - this.amount * 0.005;
-  
-      this.dailyRewards += this.amount * 0.005;
-      this.rebuy = parseFloat((this.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
-    }
-    this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
-    }
+        rebuy:this.rebuy,
+        isCheck:true,
+        index:-1
+      },{initalizeTable: true})
+  }
 
-  calculate(data:dataTable, { rebuyNever= false, initalizeTable = false}= {}){
+  private calculate(data:dataTable, { rebuyNever= false, initalizeTable = false}= {}){
 
-    for (let i = data.index + 1; i < this.table.length;i++){
+    for (let i = data.index + 1; i < this.totalDays;i++){
 
       if (data.rebuy >= 2000) data.rebuy = 2000;
 
-        this.table[i].amount = data.amount;
-        this.table[i].dailyInterest = data.amount * 0.005;
-        this.table[i].dailyRewards = data.dailyRewards;
-        this.table[i].rebuy = data.rebuy;
-        this.table[i].membershipBalance = data.membershipBalance;
-        this.table[i].isCheck = data.isCheck;
+      this.createOrUpdateTable({
+          days: i,
+          amount: data.amount,
+          dailyInterest: data.amount * 0.005,
+          dailyRewards: data.dailyRewards,
+          rebuy: data.rebuy,
+          membershipBalance: data.membershipBalance,
+          isCheck: data.isCheck,
+      }, initalizeTable); 
 
       if (data.dailyRewards >= 50){
           if (!rebuyNever){ 
@@ -128,25 +106,45 @@ export class AppComponent {
             data.amount = parseFloat(this.userData.membership)
             data.membershipBalance +=- data.amount * 0.005;
           };
-        data.dailyRewards -=  data.rebuy;
-          
+          data.dailyRewards -= data.rebuy;
       }else data.membershipBalance += data.rebuy * 3 - data.amount * 0.005;
-
       data.dailyRewards += data.amount * 0.005;
       data.rebuy =  parseFloat((data.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
     }
-
     this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
     console.log(this.recompenseFinal);
     this.dataSource.data = this.dataSource.data;
     this.returnInvestmentDate();
-}
+  }
+
+  private createOrUpdateTable(data:dataTable, initializateTable:boolean = false){
+
+    if(initializateTable){
+      this.table.push({
+        days: data.days+1,
+        date:new Date(this.userData.date).setDate(
+          new Date(this.userData.date).getDate() + data.days),
+        amount: data.amount,
+        dailyInterest: data.dailyInterest ,
+        dailyRewards: data.dailyRewards,
+        rebuy: data.rebuy,
+        membershipBalance: data.membershipBalance,
+        isCheck: data.isCheck,
+      });
+    }else{
+      this.table[data.days].amount = data.amount;
+      this.table[data.days].dailyInterest = data.dailyInterest;
+      this.table[data.days].dailyRewards = data.dailyRewards;
+      this.table[data.days].rebuy = data.rebuy;
+      this.table[data.days].membershipBalance = data.membershipBalance;
+      this.table[data.days].isCheck = data.isCheck;
+    }
+  }
 
   public returnInvestmentDate(){
-
     let [returnDate,date,cont] = [0,0,0];
 
-      this.table.forEach(element => {
+    this.table.forEach(element => {
         returnDate+=element.rebuy
         if(returnDate >=parseInt(this.userData.membership)){
           cont++;
@@ -163,11 +161,9 @@ export class AppComponent {
   setTimeout(() => {
     const idCheck = indice - 1;
     this.table[idCheck].isCheck = event.checked;
-    if (this.table[idCheck].isCheck) {
-      this.invert(idCheck);
-    } else {
-      this.retire(idCheck);
-    }
+
+    if (this.table[idCheck].isCheck)this.invert(idCheck)
+    else this.retire(idCheck);
   }, 250);
   }
 
