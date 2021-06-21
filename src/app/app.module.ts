@@ -8,6 +8,8 @@ import { ComponentsModule } from './components/components.module';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DirectivesModule } from './directives/directives.module';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
 @NgModule({
   declarations: [
     AppComponent
@@ -21,12 +23,11 @@ import { DirectivesModule } from './directives/directives.module';
     DirectivesModule,
 
     ReactiveFormsModule,
-    FormsModule,
-
-
-  
+    FormsModule
   ],
+  // providers: [AuthService, AuthGuard],
   providers: [],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
