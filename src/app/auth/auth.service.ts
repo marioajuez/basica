@@ -18,8 +18,7 @@ export class AuthService {
   ) {}
 
   login(user: User) {
-    // console.log(user.userName == 'mariojuez' && user.password == '1' );
-    if (user.userName == 'mariojuez' && user.password == '1' ) {
+    if (user.userName == 'mariojuez' && user.password == 'Mario.21' ) {
       this.loggedIn.next(true);
       this.router.navigate(['home']);
     }

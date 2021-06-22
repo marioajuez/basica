@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
@@ -15,14 +14,13 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService,
-    private router: Router
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.form = this.fb.group({
-      userName: ['mariojuez', Validators.required],
-      password: ['1', Validators.required]
+      userName: ['', Validators.required],
+      password: ['', Validators.required]
     });
   }
 
@@ -34,15 +32,10 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-
-
-    this.router.navigate(['home']);
-
-    // console.log(this.form.value);
-    // if (this.form.valid) {
-    //   this.authService.login(this.form.value);
-    // }
-    // this.formSubmitAttempt = true;
+    if (this.form.valid) {
+      this.authService.login(this.form.value);
+    }
+    this.formSubmitAttempt = true;
   }
 
 }

@@ -8,8 +8,8 @@ import { ComponentsModule } from './components/components.module';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DirectivesModule } from './directives/directives.module';
-import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './auth/auth.guard';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -19,13 +19,13 @@ import { AuthGuard } from './auth/auth.guard';
     AppRoutingModule,
     BrowserAnimationsModule,
 
+    HttpClientModule,
     ComponentsModule,
     DirectivesModule,
 
     ReactiveFormsModule,
     FormsModule
   ],
-  // providers: [AuthService, AuthGuard],
   providers: [],
 
   bootstrap: [AppComponent]
