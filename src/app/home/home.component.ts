@@ -28,22 +28,15 @@ export class HomeComponent implements OnInit {
     membership: '300',
   };
 
+  
   listFilter = [
-    {
-      name:'-- select --',
-      value: "all"
-    },
-    {
-      name:'yes',
-      value: 'true'
-    },
-    {
-      name:'no',
-      value: 'false'
-    }
+    { name:'-- no filters --', value: "all"},
+    { name:'yes', value: 'true'},
+    { name:'no',value: 'false'}
   ]
-
   select = this.listFilter[0].value ;
+ 
+  public optionRebuy = "default"
 
 
 // ----- variables to display in view (template)  ---
@@ -58,7 +51,6 @@ export class HomeComponent implements OnInit {
   totalDays = 600;
 
   filterSelect = '';
-  optionRebuy = ""
   timeout: any = null;
 
 // --------- variables to store calculations ------------
@@ -136,6 +128,8 @@ export class HomeComponent implements OnInit {
     this.returnInvestmentDate();
   }
 
+
+
   private createOrUpdateTable(data:dataTable, initializateTable:boolean = false){
 
     if(initializateTable){
@@ -178,6 +172,7 @@ export class HomeComponent implements OnInit {
 
   public check(event, indice) {
   setTimeout(() => {
+    this.optionRebuy = "default";
     const idCheck = indice - 1;
     this.table[idCheck].isCheck = event.checked;
 

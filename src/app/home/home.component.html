@@ -1,3 +1,5 @@
+<!-- <button mat-button color="warn"  (click)="onClick()">Basic</button> -->
+
 <div class="form-sticky">
   <form name="form" #f="ngForm">
     <mat-accordion>
@@ -5,16 +7,25 @@
                           
         <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
 
-          <p>{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} en {{ dateReturnInvest.day}} dias</p>
+          <div class="header-flex">
 
-          <mat-form-field appearance="fill">
-            <mat-label>Membership Rewards 3x</mat-label>
-            <input matInput disabled value="{{membership3X | number:'1.2'}}">
-          </mat-form-field> 
-          <mat-form-field appearance="fill">
-            <mat-label>Recompense Final</mat-label>
-            <input matInput disabled value="{{ recompenseFinal | number:'1.2'}}">
-          </mat-form-field>
+            <div class="content-header">
+              <h5 style="margin: 0;">Date return membership</h5>
+              <h5 style="margin-bottom: 0; color: red;">{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} en {{ dateReturnInvest.day }} days </h5>
+              <!-- <h5 style="margin: 0; padding: 0;">{{ dateReturnInvest.day}}</h5> -->
+
+            </div>
+            <div class="content-header">
+              <h5 style="margin: 0;">Membership Rewards 3x</h5>
+              <h5>{{membership3X | number:'1.2'}}</h5>
+
+            </div>
+            <div class="content-header">
+              <h5 style="margin: 0;">Recompense Final</h5>
+              <h5>{{ recompenseFinal | number:'1.2'}}</h5>
+            </div>
+
+          </div>
       </mat-expansion-panel-header>
 
     <mat-list>
@@ -75,11 +86,12 @@
 
         <mat-form-field appearance="fill">
           <mat-label>¿Rebuy?</mat-label>
-          <mat-select [value]="optionRebuy" name ="optionRebuy" [(ngModel)]="optionRebuy" >
-            <mat-option (click)="rebuyAlways()" [value]='true'>{{ 'always' | titlecase }}</mat-option>
-            <mat-option (click)="rebuyNever()" [value]='false'>{{ 'never'| titlecase}}</mat-option>
+          <mat-select [value]="optionRebuy" name ="optionRebuy" [(ngModel)]="optionRebuy">
+            <mat-option value ="default">{{ 'select option' | titlecase }}</mat-option>
+            <mat-option (click)="rebuyAlways()" value = "always" >{{ 'always' | titlecase }}</mat-option>
+            <mat-option (click)="rebuyNever()" value = "never" >{{ 'never'| titlecase}}</mat-option>
           </mat-select>
-        </mat-form-field> 
+        </mat-form-field>
 
       <mat-divider></mat-divider>
         <h5 style="padding: 7px 8px 0; margin: 0;">Filters:</h5>

@@ -70,9 +70,12 @@ mat-grid-tile {
     margin-bottom: 20px;
   }
 
+  // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+
   // mat-expansion-panel{
   //   margin-bottom: 20px;
   // }
+
 
 
   .hide {
@@ -176,3 +179,33 @@ input.example-right-align {
   /* background-color: rgba(0,0,0,.04); */
 }
 
+
+.header-flex{
+  display: flex;
+}
+.header-flex > .content-header > h5:first-child{
+  // color: #69f0ae
+  color: black;
+  font-weight: bold;
+}
+
+.header-flex > .content-header{
+  flex: 1 1 auto;
+  text-align: center;
+  margin: 5px;  /* and that, will result in a 10px gap */
+}
+
+
+@media only screen and (max-width: $md) {
+    mat-form-field {
+        width: 100%;
+    }
+    .mat-expansion-panel-header{
+      padding-left: 0;
+    }
+}
+
+
+.mat-expansion-panel-header{
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
