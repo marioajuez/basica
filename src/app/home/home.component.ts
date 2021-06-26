@@ -1,6 +1,7 @@
 
 import {Component,OnInit,ViewChild} from '@angular/core';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 
 interface dataTable{
@@ -23,12 +24,13 @@ interface dataTable{
 export class HomeComponent implements OnInit {
 
   @ViewChild('f', { static: true }) ngForm: NgForm;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
   userData = {
     date: new Date(),
     membership: '300',
   };
 
-  
   listFilter = [
     { name:'-- no filters --', value: "all"},
     { name:'yes', value: 'true'},
@@ -65,6 +67,11 @@ export class HomeComponent implements OnInit {
     this.dataSource.data = this.table;
     this.dataSource.filterPredicate = this.createFilter();
   }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
 
   ngOnInit() {
     this.returnInvestmentDate();
