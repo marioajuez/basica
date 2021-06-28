@@ -1,5 +1,5 @@
 
-import {Component,OnInit,ViewChild} from '@angular/core';
+import {Component,ElementRef,OnInit,ViewChild} from '@angular/core';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
 
   @ViewChild('f', { static: true }) ngForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('table', {read: ElementRef}) paginatorTable: ElementRef;
 
   userData = {
     date: new Date(),
@@ -66,6 +67,8 @@ export class HomeComponent implements OnInit {
     this.initilizateTable();
     this.dataSource.data = this.table;
     this.dataSource.filterPredicate = this.createFilter();
+
+
   }
 
   ngAfterViewInit() {
@@ -76,8 +79,11 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.returnInvestmentDate();
     this.ngForm.form.valueChanges.subscribe((form) => {
+      
       this.filterSelect = form.select;
       this.dataSource.filter = (this.filterSelect); 
+      console.log(this.dataSource.filteredData.length != this.dataSource.data.length);
+
     });
   }
 
@@ -97,6 +103,11 @@ export class HomeComponent implements OnInit {
         isCheck:true,
         index:-1
       },{initalizeTable: true})
+  }
+
+  paginateChange(){
+    // console.log("object");
+    this.paginatorTable.nativeElement.scrollIntoView();
   }
 
   private calculate(data:dataTable, { rebuyNever= false, initalizeTable = false}= {}){
@@ -181,6 +192,9 @@ export class HomeComponent implements OnInit {
   setTimeout(() => {
     this.optionRebuy = "default";
     const idCheck = indice - 1;
+
+    // console.log(this.dataSource);
+    // console.log(this.dataSource.filteredData[idCheck])
     this.table[idCheck].isCheck = event.checked;
 
     if (this.table[idCheck].isCheck)this.invert(idCheck)
