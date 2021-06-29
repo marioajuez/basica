@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
 
   paginateChange(){
     // console.log("object");
-    this.paginatorTable.nativeElement.scrollIntoView();
+    this.paginatorTable.nativeElement.scrollIntoView({behavior:"smooth"});
   }
 
   private calculate(data:dataTable, { rebuyNever= false, initalizeTable = false}= {}){
