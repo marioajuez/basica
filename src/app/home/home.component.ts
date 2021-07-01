@@ -71,9 +71,9 @@ export class HomeComponent implements OnInit {
 
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  // }
 
 
   ngOnInit() {
@@ -105,8 +105,7 @@ export class HomeComponent implements OnInit {
       },{initalizeTable: true})
   }
 
-  paginateChange(){
-    // console.log("object");
+  paginationChange(paginationDetails) {
     this.paginatorTable.nativeElement.scrollIntoView({behavior:"smooth"});
   }
 
