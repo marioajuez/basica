@@ -1,16 +1,6 @@
-<!-- <div class="d-flex"> -->
-    <p>Paginadosssr</p>
-    <mat-paginator></mat-paginator>
-	<!-- <mat-paginator [length]="length" [pageIndex]="pageIndex" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="paginationChange($event)">
-	</mat-paginator> -->
-	<!-- <div class="go-to-container">
-		<div class="go-to-label">Go To: </div>
-		<mat-form-field>
-			<mat-select [(ngModel)]="goTo" (selectionChange)="goToChange()">
-				<mat-option *ngFor="let pageNumber of pageNumbers" [value]="pageNumber">{{pageNumber}}</mat-option>
-			</mat-select>
-		</mat-form-field>
-	</div> -->
-<!-- </div> -->
+<p>paginator works!</p>
 
-<!-- Created by Sameer Khan -->
+<mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]">
+</mat-paginator>

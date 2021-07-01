@@ -6,6 +6,7 @@ import { HomeComponent } from './home.component';
 import { ComponentsModule } from '../components/components.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MaterialModule } from '../components/material.module';
 
 
 @NgModule({
@@ -16,6 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
     
     ComponentsModule,
+    MaterialModule,
     DirectivesModule,
 
     ReactiveFormsModule,
