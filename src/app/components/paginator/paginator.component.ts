@@ -7,6 +7,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-paginator',
@@ -28,6 +29,8 @@ export class PaginatorComponent implements OnInit {
   @Input() pageSizeOptions: number[];
   @Input() showFirstLastButtons = false;
   @Output() page = new EventEmitter<PageEvent>();
+
+  
   @Input("pageIndex") set pageIndexChanged(pageIndex: number) {
     this.pageIndex = pageIndex;
   }
@@ -39,6 +42,8 @@ export class PaginatorComponent implements OnInit {
     this.pageSize = pageSize;
     this.updateGoto();
   }
+  numberOfClicks :number = 0;
+  @Input('clickSubject') clickSubject:Subject<any>;
 
   constructor() {}
 
@@ -48,10 +53,29 @@ export class PaginatorComponent implements OnInit {
 
     ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-  }
+    }
 
   ngOnInit() {
-    // console.log(this.dataSource, "datasource");
+    this.clickSubject.subscribe(e => {
+
+      
+      // console.log(this.dataSource.filteredData);
+      // console.log('pageSize',this.pageSize);
+      // console.log('filteredData',this.dataSource.filteredData.length);
+
+      this.dataSource.data = this.dataSource.data; 
+      this.goTo = 1
+      this.paginator.pageIndex = 0;
+
+      this.pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(this.dataSource.filteredData.length / this.pageSize); i++) {
+        this.pageNumbers.push(i);
+      }
+      this.dataSource.data = this.dataSource.data;
+     
+     
+
+    });
     this.updateGoto();
   }
 
@@ -78,6 +102,8 @@ export class PaginatorComponent implements OnInit {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize
     };
+
+    
     this.paginator.page.next(event);
     this.emitPageEvent(event);
   }

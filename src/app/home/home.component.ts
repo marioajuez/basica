@@ -1,8 +1,9 @@
 
-import {Component,ElementRef,OnInit,ViewChild} from '@angular/core';
+import {Component,ElementRef,EventEmitter,OnInit,Output,ViewChild} from '@angular/core';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
 
 interface dataTable{
   days?:number,
@@ -26,6 +27,10 @@ export class HomeComponent implements OnInit {
   @ViewChild('f', { static: true }) ngForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('table', {read: ElementRef}) paginatorTable: ElementRef;
+
+
+  // @Output()selectionChange: EventEmitter<C>
+  // @Output() openedChange: EventEmitter<boolean>
 
   userData = {
     date: new Date(),
@@ -63,17 +68,14 @@ export class HomeComponent implements OnInit {
   private membershipBalance
 // --------------------------
 
+clickSubject:Subject<any> = new Subject();
+
+
   constructor(){
     this.initilizateTable();
     this.dataSource.data = this.table;
     this.dataSource.filterPredicate = this.createFilter();
-
-
   }
-
-  // ngAfterViewInit() {
-  //   this.dataSource.paginator = this.paginator;
-  // }
 
 
   ngOnInit() {
@@ -82,8 +84,13 @@ export class HomeComponent implements OnInit {
       
       this.filterSelect = form.select;
       this.dataSource.filter = (this.filterSelect); 
-      console.log(this.dataSource.filteredData.length != this.dataSource.data.length);
+      // this.dataSource.data = this.dataSource.data
+      // console.log(this.dataSource);
+      // console.log(this.dataSource.filteredData.length);
 
+      if(this.dataSource.filteredData.length != this.dataSource.data.length){
+          this.clickSubject.next(1);
+      }
     });
   }
 
@@ -143,6 +150,8 @@ export class HomeComponent implements OnInit {
     console.log(this.recompenseFinal);
     this.dataSource.data = this.dataSource.data;
     this.returnInvestmentDate();
+    this.clickSubject.next(1);
+
   }
 
 

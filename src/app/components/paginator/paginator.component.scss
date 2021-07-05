@@ -1,5 +1,8 @@
 .d-flex {
   display: flex;
+  margin-right: 20px;
+  /* flex-direction: column-reverse; */
+  justify-content: flex-end;
 }
 
 //Original
