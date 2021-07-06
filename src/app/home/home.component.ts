@@ -66,8 +66,10 @@ export class HomeComponent implements OnInit {
 
 
 
-// var for send event forms to other component
+// var for send event to other component
 eventForm:Subject<any> = new Subject();
+eventCheck:Subject<any> = new Subject();
+
 // --------------------------------------------
 
 
@@ -85,8 +87,8 @@ eventForm:Subject<any> = new Subject();
       this.filterSelect = form.select;
       this.dataSource.filter = (this.filterSelect); 
       this.eventForm.next(1);
-
     });
+    
   }
 
 
@@ -267,7 +269,6 @@ eventForm:Subject<any> = new Subject();
 
   protected retire(indice) {
     console.log('retirar');
-
     this.rebuy = this.table[indice].rebuy;
     this.amount = this.table[indice].amount + this.rebuy - this.rebuy;
     this.dailyRewards =this.table[indice].dailyRewards - this.rebuy + this.amount * 0.005;
@@ -282,6 +283,7 @@ eventForm:Subject<any> = new Subject();
         isCheck:true,
         index:indice
       })
+    this.eventCheck.next(1);
   }
 
   protected invert(indice) {
@@ -300,6 +302,7 @@ eventForm:Subject<any> = new Subject();
         isCheck:true,
         index:indice
       })
+    this.eventCheck.next(1);
   }
 
   protected createFilter() {

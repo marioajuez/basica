@@ -45,6 +45,8 @@ export class PaginatorComponent implements OnInit {
   }
 
   @Input('eventForm') eventForm:Subject<any>;
+  @Input('eventCheck') eventCheck:Subject<any>;
+
 
   constructor() {}
 
@@ -54,18 +56,24 @@ export class PaginatorComponent implements OnInit {
 
   ngOnInit() {
     this.eventForm.subscribe(e => {
-
-      // this.goTo = (this.pageIndex || 0) + 1;
-      // this.paginator.pageIndex = this.goTo - 1;
       this.goTo = 1
       this.paginator.pageIndex = 0;
-      
       this.pageNumbers = [];
       for (let i = 1; i <= Math.ceil(this.dataSource.filteredData.length / this.pageSize); i++) {
         this.pageNumbers.push(i);
       }
       this.dataSource.data = this.dataSource.data;
     });
+
+    this.eventCheck.subscribe( e =>{
+      this.goTo = (this.pageIndex || 0) + 1;
+      this.paginator.pageIndex = this.goTo - 1;
+      this.pageNumbers = [];
+      for (let i = 1; i <= Math.ceil(this.dataSource.filteredData.length / this.pageSize); i++) {
+        this.pageNumbers.push(i);
+      }
+      this.dataSource.data = this.dataSource.data;
+    })
     this.updateGoto();
   }
 
