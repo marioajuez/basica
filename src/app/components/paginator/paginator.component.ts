@@ -35,6 +35,7 @@ export class PaginatorComponent implements OnInit {
     this.pageIndex = pageIndex;
   }
   @Input("length") set lengthChanged(length: number) {
+
     this.length = length;
     this.updateGoto();
   }
@@ -42,39 +43,28 @@ export class PaginatorComponent implements OnInit {
     this.pageSize = pageSize;
     this.updateGoto();
   }
-  numberOfClicks :number = 0;
-  @Input('clickSubject') clickSubject:Subject<any>;
+
+  @Input('eventForm') eventForm:Subject<any>;
 
   constructor() {}
 
-  ngAfterContentChecked() {
-    // this.dataSource.paginator = this.paginator;
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
-    ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    }
-
   ngOnInit() {
-    this.clickSubject.subscribe(e => {
+    this.eventForm.subscribe(e => {
 
-      
-      // console.log(this.dataSource.filteredData);
-      // console.log('pageSize',this.pageSize);
-      // console.log('filteredData',this.dataSource.filteredData.length);
-
-      this.dataSource.data = this.dataSource.data; 
+      // this.goTo = (this.pageIndex || 0) + 1;
+      // this.paginator.pageIndex = this.goTo - 1;
       this.goTo = 1
       this.paginator.pageIndex = 0;
-
+      
       this.pageNumbers = [];
       for (let i = 1; i <= Math.ceil(this.dataSource.filteredData.length / this.pageSize); i++) {
         this.pageNumbers.push(i);
       }
       this.dataSource.data = this.dataSource.data;
-     
-     
-
     });
     this.updateGoto();
   }
@@ -96,6 +86,7 @@ export class PaginatorComponent implements OnInit {
   }
 
   goToChange() {
+
     this.paginator.pageIndex = this.goTo - 1;
     const event: PageEvent = {
       length: this.paginator.length,

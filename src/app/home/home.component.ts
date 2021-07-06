@@ -28,10 +28,6 @@ export class HomeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('table', {read: ElementRef}) paginatorTable: ElementRef;
 
-
-  // @Output()selectionChange: EventEmitter<C>
-  // @Output() openedChange: EventEmitter<boolean>
-
   userData = {
     date: new Date(),
     membership: '300',
@@ -68,7 +64,11 @@ export class HomeComponent implements OnInit {
   private membershipBalance
 // --------------------------
 
-clickSubject:Subject<any> = new Subject();
+
+
+// var for send event forms to other component
+eventForm:Subject<any> = new Subject();
+// --------------------------------------------
 
 
   constructor(){
@@ -84,13 +84,8 @@ clickSubject:Subject<any> = new Subject();
       
       this.filterSelect = form.select;
       this.dataSource.filter = (this.filterSelect); 
-      // this.dataSource.data = this.dataSource.data
-      // console.log(this.dataSource);
-      // console.log(this.dataSource.filteredData.length);
+      this.eventForm.next(1);
 
-      if(this.dataSource.filteredData.length != this.dataSource.data.length){
-          this.clickSubject.next(1);
-      }
     });
   }
 
@@ -150,8 +145,7 @@ clickSubject:Subject<any> = new Subject();
     console.log(this.recompenseFinal);
     this.dataSource.data = this.dataSource.data;
     this.returnInvestmentDate();
-    this.clickSubject.next(1);
-
+    // this.clickSubject.next(1);
   }
 
 
@@ -248,6 +242,7 @@ clickSubject:Subject<any> = new Subject();
     })
     this.dataSource.filter = JSON.stringify(false); 
     this.select = "false"
+    this.eventForm.next(1);
   }
 
   public rebuyAlways(){
@@ -267,6 +262,7 @@ clickSubject:Subject<any> = new Subject();
 
       this.dataSource.filter = JSON.stringify(true); 
       this.select = "true"
+      this.eventForm.next(1);
   }
 
   protected retire(indice) {
@@ -307,13 +303,18 @@ clickSubject:Subject<any> = new Subject();
   }
 
   protected createFilter() {
+    
+    
     let filterFunction = function (data, filter) {
+      
+      
       if (filter == 'all') {
         return  String(data.isCheck).includes('true') ||  String(data.isCheck).includes('false');
       } else {
         return String(data.isCheck).includes(filter) && data.dailyRewards >= 50;
       }
     };
+    this.eventForm.next(1);
     return filterFunction;
   }
 
