@@ -80,7 +80,7 @@
 
             <mat-form-field appearance="fill">
               <mat-label>¿Rebuy?</mat-label>
-              <mat-select [value]="optionRebuy"   [disabled] ="f.form.invalid" name ="optionRebuy" [(ngModel)]="optionRebuy">
+              <mat-select [value]="optionRebuy"   [disabled] ="f.form.invalid" name ="optionRebuy" [(value)]="optionRebuy">
                 <mat-option value ="default">{{ 'select option' | titlecase }}</mat-option>
                 <mat-option (click)="rebuyAlways()" value = "always" >{{ 'always' | titlecase }}</mat-option>
                 <mat-option (click)="rebuyNever()" value = "never" >{{ 'never'| titlecase}}</mat-option>

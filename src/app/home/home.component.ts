@@ -83,7 +83,6 @@ eventCheck:Subject<any> = new Subject();
   ngOnInit() {
     this.returnInvestmentDate();
     this.ngForm.form.valueChanges.subscribe((form) => {
-      
       this.filterSelect = form.select;
       this.dataSource.filter = (this.filterSelect); 
       this.eventForm.next(1);
@@ -147,7 +146,6 @@ eventCheck:Subject<any> = new Subject();
     console.log(this.recompenseFinal);
     this.dataSource.data = this.dataSource.data;
     this.returnInvestmentDate();
-    // this.clickSubject.next(1);
   }
 
 
