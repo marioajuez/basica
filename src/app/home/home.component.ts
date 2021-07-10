@@ -65,20 +65,18 @@ export class HomeComponent implements OnInit {
 // --------------------------
 
 
-
 // var for send event to other component
 eventForm:Subject<any> = new Subject();
 eventCheck:Subject<any> = new Subject();
 
 // --------------------------------------------
 
-
   constructor(){
     this.initilizateTable();
     this.dataSource.data = this.table;
     this.dataSource.filterPredicate = this.createFilter();
+    this.rebuyNever();
   }
-
 
   ngOnInit() {
     this.returnInvestmentDate();
@@ -305,9 +303,7 @@ eventCheck:Subject<any> = new Subject();
 
   protected createFilter() {
     
-    
     let filterFunction = function (data, filter) {
-      
       
       if (filter == 'all') {
         return  String(data.isCheck).includes('true') ||  String(data.isCheck).includes('false');

@@ -35,7 +35,6 @@ export class PaginatorComponent implements OnInit {
     this.pageIndex = pageIndex;
   }
   @Input("length") set lengthChanged(length: number) {
-
     this.length = length;
     this.updateGoto();
   }
@@ -46,7 +45,6 @@ export class PaginatorComponent implements OnInit {
 
   @Input('eventForm') eventForm:Subject<any>;
   @Input('eventCheck') eventCheck:Subject<any>;
-
 
   constructor() {}
 
@@ -66,11 +64,12 @@ export class PaginatorComponent implements OnInit {
     });
 
     this.eventCheck.subscribe( e =>{
-      this.goTo = (this.pageIndex || 0) + 1;
+
+      this.goTo = Math.ceil(this.dataSource.filteredData.length / this.pageSize);
       this.paginator.pageIndex = this.goTo - 1;
       this.pageNumbers = [];
-      for (let i = 1; i <= Math.ceil(this.dataSource.filteredData.length / this.pageSize); i++) {
-        this.pageNumbers.push(i);
+      for (let i = 1; i <=  this.goTo ; i++) {
+        this.pageNumbers.push(i); 
       }
       this.dataSource.data = this.dataSource.data;
     })
