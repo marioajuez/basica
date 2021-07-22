@@ -16,7 +16,6 @@ export class AuthService {
  
 
   get isLoggedIn() {
-    console.log("djkasdjl");
     return this.loggedIn.asObservable();
   }
 

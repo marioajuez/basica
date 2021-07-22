@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
     this.initilizateTable();
     this.dataSource = new MatTableDataSource(this.table);
     this.dataSource.filterPredicate = this.createFilter();
-    // this.rebuyAlways();
+    this.rebuyAlways();
   }
 
 
@@ -147,7 +147,6 @@ export class HomeComponent implements OnInit {
       data.rebuy =  parseFloat((data.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
     }
     this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
-    this.dataSource.data = this.dataSource.data;
     this.returnInvestmentDate();
   }
 
@@ -192,12 +191,8 @@ export class HomeComponent implements OnInit {
   }
 
   public check(event, indice, indiceFilter?:number) {
-
     this.eventCheck.next(1);
-
-
   setTimeout(() => {
-
     this.optionRebuy = "default";
     const idCheck = indice - 1;
     this.table[idCheck].isCheck = event.checked;
