@@ -152,8 +152,8 @@
 
               <ng-container matColumnDef="optionRebuy">
                 <th mat-header-cell *matHeaderCellDef>¿Rebuy?</th>
-                <td mat-cell *matCellDef="let val"> 
-                    <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days)" color="primary" [class.hide]="val.rebuy < 50">
+                <td mat-cell *matCellDef="let val; let indice=index"> 
+                    <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days,indice+1)" color="primary" [class.hide]="val.rebuy < 50">
                     </mat-checkbox>
                 </td>
 
@@ -172,7 +172,7 @@
     </table>
     </div>
 
-    <app-paginator [eventForm]="eventForm"  [eventCheck]="eventCheck" [length]="600" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+    <app-paginator [eventCheck]="eventCheck" [eventForm]="eventForm" [length]="600" [pageIndex]="0" [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]"
 		(page)="paginationChange($event)" [dataSource]="dataSource" ></app-paginator>
 
   <!-- <mat-paginator (page)="paginateChange()" [pageSize] ="25" [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>  -->

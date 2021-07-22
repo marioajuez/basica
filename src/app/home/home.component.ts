@@ -1,9 +1,10 @@
 
-import {Component,ElementRef,EventEmitter,OnInit,Output,ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component,ElementRef,EventEmitter,OnInit,Output,ViewChild,AfterViewInit} from '@angular/core';
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 interface dataTable{
   days?:number,
@@ -27,6 +28,9 @@ export class HomeComponent implements OnInit {
   @ViewChild('f', { static: true }) ngForm: NgForm;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('table', {read: ElementRef}) paginatorTable: ElementRef;
+  @ViewChild('table') table_: MatTable<any>;
+  
+  obs: Observable<any>;
 
   userData = {
     date: new Date(),
@@ -50,7 +54,8 @@ export class HomeComponent implements OnInit {
 // ------------------------
 
   table: dataTable[]= [];
-  public dataSource = new MatTableDataSource();
+  // public dataSource = new MatTableDataSource();
+  public dataSource:MatTableDataSource<any>;
   public displayedColumns: string[] = ['#','day','date','amount','dailyInterest','dailyRewards','rebuy','optionRebuy','balance'];
   totalDays = 600;
 
@@ -66,20 +71,23 @@ export class HomeComponent implements OnInit {
 
 
 // var for send event to other component
-eventForm:Subject<any> = new Subject();
-eventCheck:Subject<any> = new Subject();
+  eventForm:Subject<any> = new Subject();
+  eventCheck:Subject<any> = new Subject();
 
 // --------------------------------------------
 
-  constructor(){
+  constructor() {
     this.initilizateTable();
-    this.dataSource.data = this.table;
+    this.dataSource = new MatTableDataSource(this.table);
     this.dataSource.filterPredicate = this.createFilter();
-    this.rebuyNever();
+    // this.rebuyAlways();
   }
 
+
   ngOnInit() {
+ 
     this.returnInvestmentDate();
+
     this.ngForm.form.valueChanges.subscribe((form) => {
       this.filterSelect = form.select;
       this.dataSource.filter = (this.filterSelect); 
@@ -87,8 +95,6 @@ eventCheck:Subject<any> = new Subject();
     });
     
   }
-
-
   protected initilizateTable() {
 
     this.amount = parseFloat(this.userData.membership);
@@ -141,12 +147,9 @@ eventCheck:Subject<any> = new Subject();
       data.rebuy =  parseFloat((data.dailyRewards / 50.0).toString().split('.')[0]) * 50.0;
     }
     this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
-    console.log(this.recompenseFinal);
     this.dataSource.data = this.dataSource.data;
     this.returnInvestmentDate();
   }
-
-
 
   private createOrUpdateTable(data:dataTable, initializateTable:boolean = false){
 
@@ -188,18 +191,23 @@ eventCheck:Subject<any> = new Subject();
 
   }
 
-  public check(event, indice) {
+  public check(event, indice, indiceFilter?:number) {
+
+    this.eventCheck.next(1);
+
+
   setTimeout(() => {
+
     this.optionRebuy = "default";
     const idCheck = indice - 1;
-
-    // console.log(this.dataSource);
-    // console.log(this.dataSource.filteredData[idCheck])
     this.table[idCheck].isCheck = event.checked;
 
     if (this.table[idCheck].isCheck)this.invert(idCheck)
     else this.retire(idCheck);
+    this.dataSource.data =  this.dataSource.data;
+    
   }, 250);
+
   }
 
   protected updateTable(){
@@ -264,7 +272,7 @@ eventCheck:Subject<any> = new Subject();
   }
 
   protected retire(indice) {
-    console.log('retirar');
+    // console.log('retirar');
     this.rebuy = this.table[indice].rebuy;
     this.amount = this.table[indice].amount + this.rebuy - this.rebuy;
     this.dailyRewards =this.table[indice].dailyRewards - this.rebuy + this.amount * 0.005;
@@ -279,11 +287,10 @@ eventCheck:Subject<any> = new Subject();
         isCheck:true,
         index:indice
       })
-    this.eventCheck.next(1);
   }
 
   protected invert(indice) {
-    console.log('reinvertir');
+    // console.log('reinvertir');
     this.rebuy = this.table[indice].rebuy;
     this.amount = this.table[indice].amount + this.rebuy;
     this.dailyRewards = this.table[indice].dailyRewards - this.rebuy + this.amount * 0.005;
@@ -298,7 +305,6 @@ eventCheck:Subject<any> = new Subject();
         isCheck:true,
         index:indice
       })
-    this.eventCheck.next(1);
   }
 
   protected createFilter() {
@@ -312,6 +318,7 @@ eventCheck:Subject<any> = new Subject();
       }
     };
     this.eventForm.next(1);
+    // 
     return filterFunction;
   }
 
