@@ -87,7 +87,6 @@ export class PaginatorComponent implements OnInit {
         //       this.dataSource.filteredData.length
         //     );
         // }
-        console.log("object");
         this.pageNumbers = []
         for (let i = 1; i <= Math.ceil((this.dataSource.filteredData.length) / this.pageSize); i++) {
           this.pageNumbers.push(i);
