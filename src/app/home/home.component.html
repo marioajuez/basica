@@ -23,6 +23,7 @@
           </mat-expansion-panel-header>
 
         <mat-list>
+
             <mat-form-field appearance="fill">
               <mat-label>Date initial</mat-label>
               <input matInput   
@@ -96,6 +97,8 @@
               </mat-select>
             </mat-form-field> 
 
+           
+
         </mat-list>
         </mat-expansion-panel>
       </mat-accordion>
@@ -104,9 +107,8 @@
     </div> 
 
 <div style="box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);">
-    <!-- <div class="mat-elevation-z8 example-container"> -->
-    <div class="mat-elevation-z8">
-
+    <div class="mat-elevation-z8 example-container">
+    <!-- <div class="mat-elevation-z8"> -->
     <table #table mat-table [dataSource]="dataSource">
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
@@ -174,8 +176,16 @@
     </table>
     </div>
 
-    <app-paginator [eventCheck]="eventCheck" [eventForm]="eventForm" [length]="600" [pageIndex]="0" [pageSize]="100" [pageSizeOptions]="[5, 10, 25, 100]"
-		(page)="paginationChange($event)" [dataSource]="dataSource" ></app-paginator>
+    <app-paginator 
+    [eventCheck]="eventCheck" 
+    [eventForm]="eventForm" 
+    [length]="600" 
+    [pageIndex]="0" 
+    [pageSize]="25" 
+    [pageSizeOptions]="[5, 10, 25, 100]"
+		(page)="paginationChange($event)" 
+    [dataSource]="dataSource"
+     ></app-paginator>
 
   
 </div>

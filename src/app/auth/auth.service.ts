@@ -22,7 +22,7 @@ export class AuthService {
 
 
   login(user: User) {
-    if (user.userName == 'mariojuez' && user.password == 'Mario.21' ) {
+    if (user.userName == 'myuser' && user.password == '12345' ) {
       // console.log("hola");
       this.loggedIn.next(true);
       // console.log("chao");

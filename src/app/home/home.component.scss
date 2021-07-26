@@ -84,11 +84,10 @@ mat-grid-tile {
   }
 
   mat-form-field{
-    // padding: 5px 0px 25px 2px; 
-    padding:0;
+    // padding: 20px;
+    // width: 100%;
+    
   }
-
-
 
 
   .sticky{
@@ -150,7 +149,7 @@ input.example-right-align {
 }
 
 .example-container {
-  height: 400px;
+  height: 60vh;
   width: auto;
   max-width: 100%;
   overflow: auto;
@@ -183,6 +182,7 @@ input.example-right-align {
 
 .header-flex{
   display: flex;
+  width: 100%;
 }
 .header-flex > .content-header > h5:first-child{
   // color: #69f0ae
