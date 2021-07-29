@@ -39,6 +39,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 
@@ -48,6 +49,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     CommonModule
   ],
   exports:[
+    MatToolbarModule,
     MatSortModule,
     MatTableModule,
     MatProgressBarModule,
@@ -70,7 +72,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
     MatMenuModule,
     MatDatepickerModule,
     MatRadioModule,
-    MatTableModule
+    MatTableModule,
+    MatGridListModule
   ]
 })
 export class MaterialModule { }

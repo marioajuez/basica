@@ -13,12 +13,18 @@ $lg:992px;
 $xl:1200px;
 
 @media only screen and (max-width: $md) {
-    body {
-      padding: 5px !important;
-    }
+    // body {
+    //   padding: 5px !important;
+    // }
 }
-
-body {
-  font-family: Roboto, Arial, sans-serif;
-  padding: 30px;
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  list-style: none
 }
+// body {
+//   font-family: Roboto, Arial, sans-serif;
+//   padding: 30px;
+// }

@@ -13,3 +13,107 @@ table, mat-table{
     overflow: auto;
 }
 
+.header-flex{
+    display: flex;
+    width: 100%;
+    margin: 0 0 20px 0;
+    border-radius: 15px;
+}
+  .header-flex > .content-header > h5:first-child{
+    // color: #69f0ae
+    color: black;
+    font-weight: bold;
+  }
+  
+  .header-flex > .content-header{
+    flex: 1 1 auto;
+    text-align: center;
+    margin: 5px;  /* and that, will result in a 10px gap */
+}
+
+  
+  mat-form-field{
+    // padding: 20px;
+    width: 100%;
+  }
+
+.mat-header-cell{
+    background-color: #3f51b5;
+    color: white;
+}
+
+
+.shadow-container{
+    border-radius: 20px;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%),
+                0px 8px 10px 1px rgb(0 0 0 / 14%),
+                0px 3px 14px 2px rgb(0 0 0 / 12%);
+}
+
+.mat-elevation-z8 {
+    box-shadow: none;
+}
+
+.box{
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.mat-toolbar{
+    background-color: #69f0ae; 
+    color: black;
+    position: fixed;
+    top: 0;
+    z-index: 999999;
+}
+
+$sm:576px;
+$md:768px;
+$lg:992px;
+$xl:1200px;
+
+@media only screen and (max-width: $md) {
+    .flex{
+        flex-direction: column !important;
+    }
+    .item-one,.item-two{
+        flex: 1;
+        width: 100%;
+    }
+}
+
+.flex{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    align-items: center;
+    justify-content: center;
+}
+.item-one{
+    flex: 0;
+    // border: 1px solid black;
+    margin: 20px 20px 20px 20px;
+    border-radius: 15px;
+    box-sizing: border-box;
+    // box-sizing: border-box;
+
+}   
+
+mat-form-field {
+    padding: 15px;
+}
+
+.item-two{
+    flex: 1;
+}
+
+th.mat-header-cell{
+
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+  
+

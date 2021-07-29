@@ -1,193 +1,182 @@
-<!-- <button mat-button color="warn"  (click)="onClick()">Basic</button> -->
 
-    <div class="form-sticky">
-      <form name="form" #f="ngForm">
-        <mat-accordion>
-          <mat-expansion-panel [expanded]="true">
-                
-            <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
-              <div class="header-flex">
-                <div class="content-header">
-                  <h5 style="margin: 0;">Date return membership</h5>
-                  <h5 style="margin-bottom: 0; color: red;">{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} in {{ dateReturnInvest.day }} days </h5>
-                </div>
-                <div class="content-header">
-                  <h5 style="margin: 0;">Membership Rewards 3x</h5>
-                  <h5>{{membership3X | number:'1.2'}}</h5>
-                </div>
-                <div class="content-header">
-                  <h5 style="margin: 0;">Recompense Final</h5>
-                  <h5>{{ recompenseFinal | number:'1.2'}}</h5>
-                </div>
-              </div>
-          </mat-expansion-panel-header>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <span>Hyperfund calculator</span>
+    </mat-toolbar-row>
+  </mat-toolbar>
 
-        <mat-list>
+<div style="margin: 20px;margin: 90px 20px 20px 20px"> 
+  <div class="flex">
+      <div class="item-one shadow-container">
+        <form name="form" #f="ngForm">
+          <mat-form-field appearance="fill">
+            <mat-label>Date initial</mat-label>
+            <input matInput   
+              name = "date"
+              [matDatepicker]="picker"
+              [(ngModel)]="userData.date"
+              (dateChange)="dataPicker($event)"
 
-            <mat-form-field appearance="fill">
-              <mat-label>Date initial</mat-label>
-              <input matInput   
-                name = "date"
-                [matDatepicker]="picker"
-                [(ngModel)]="userData.date"
-                (dateChange)="dataPicker($event)"
+              min="{{userData.date | date: 'yyyy/MM/dd'}}"
+              required
+              #date="ngModel"
+            >
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
 
-                min="{{userData.date | date: 'yyyy/MM/dd'}}"
-                required
-                #date="ngModel"
-              >
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="date.invalid && (date.dirty || date.touched)">
 
-              <mat-error *ngIf="date.invalid && (date.dirty || date.touched)">
-
-                    <div *ngIf="date.errors?.required">
-                          campo Obligatorio
-                    </div>
-              </mat-error>
-            </mat-form-field>
-
-
-            <mat-form-field appearance="fill" floatLabel="always">
-              <mat-label>Starting Membership</mat-label>
-              <input matInput 
-                class="example-right-align" 
-                placeholder="0"
-                name = "membership"
-                (input)= "triggerEventKey($event)"
-                [(ngModel)]="userData.membership" 
-                value="{{userData.membership}}"
-
-                #membership="ngModel"
-                min="300"
-                pattern="[0-9]+"
-                required
-              >
-              <span matPrefix>$&nbsp;</span>
-              <span matSuffix>.00</span>
-              
-            <mat-error class="message-block" *ngIf="membership.invalid && (membership.dirty || membership.touched)">
-                <div class="error-message" *ngIf="membership.errors.required">
-                      campo Obligatorio
-                </div>
-                <div class="error-message" *ngIf="membership.errors.min && !membership.errors.pattern">
-                  valor minimo 300
-                </div>
-                <div class="error-message" *ngIf="membership.errors.pattern || (membership.errors.min && membership.errors.pattern)">
-                  solo numeros
-                </div>
+                  <div *ngIf="date.errors?.required">
+                        campo Obligatorio
+                  </div>
             </mat-error>
-            </mat-form-field>
+          </mat-form-field>
 
-            <mat-form-field appearance="fill">
-              <mat-label>¿Rebuy?</mat-label>
-              <mat-select [value]="optionRebuy"   [disabled] ="f.form.invalid" name ="optionRebuy" [(value)]="optionRebuy">
-                <mat-option value ="default">{{ 'select option' | titlecase }}</mat-option>
-                <mat-option (click)="rebuyAlways()" value = "always" >{{ 'always' | titlecase }}</mat-option>
-                <mat-option (click)="rebuyNever()" value = "never" >{{ 'never'| titlecase}}</mat-option>
-              </mat-select>
-            </mat-form-field>
 
-          <mat-divider></mat-divider>
-            <h5 style="padding: 7px 8px 0; margin: 0;">Filters:</h5>
-            <mat-form-field appearance="fill">
-              <mat-label> column "¿Rebuy?" </mat-label>
-              <mat-select [value]='select'  [disabled] ="f.form.invalid"  name ="select" [(ngModel)]="select">
-                <mat-option *ngFor = "let list of listFilter" [value]='list.value' >{{ list.name | titlecase }}</mat-option>
-              </mat-select>
-            </mat-form-field> 
+          <mat-form-field appearance="fill" floatLabel="always">
+            <mat-label>Starting Membership</mat-label>
+            <input matInput 
+              class="example-right-align" 
+              placeholder="0"
+              name = "membership"
+              (input)= "triggerEventKey($event)"
+              [(ngModel)]="userData.membership" 
+              value="{{userData.membership}}"
 
-           
+              #membership="ngModel"
+              min="300"
+              pattern="[0-9]+"
+              required
+            >
+            <span matPrefix>$&nbsp;</span>
+            <span matSuffix>.00</span>
+            
+          <mat-error class="message-block" *ngIf="membership.invalid && (membership.dirty || membership.touched)">
+              <div class="error-message" *ngIf="membership.errors.required">
+                    campo Obligatorio
+              </div>
+              <div class="error-message" *ngIf="membership.errors.min && !membership.errors.pattern">
+                valor minimo 300
+              </div>
+              <div class="error-message" *ngIf="membership.errors.pattern || (membership.errors.min && membership.errors.pattern)">
+                solo numeros
+              </div>
+          </mat-error>
+          </mat-form-field>
 
-        </mat-list>
-        </mat-expansion-panel>
-      </mat-accordion>
+          <mat-form-field appearance="fill">
+            <mat-label>¿Rebuy?</mat-label>
+            <mat-select [value]="optionRebuy"   [disabled] ="f.form.invalid" name ="optionRebuy" [(value)]="optionRebuy">
+              <mat-option value ="default">{{ 'select option' | titlecase }}</mat-option>
+              <mat-option (click)="rebuyAlways()" value = "always" >{{ 'always' | titlecase }}</mat-option>
+              <mat-option (click)="rebuyNever()" value = "never" >{{ 'never'| titlecase}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-divider></mat-divider>
+          <h5 style="padding: 7px 8px 0; margin: 0;">Filters:</h5>
+          <mat-form-field appearance="fill">
+            <mat-label> column "¿Rebuy?" </mat-label>
+            <mat-select [value]='select'  [disabled] ="f.form.invalid"  name ="select" [(ngModel)]="select">
+              <mat-option *ngFor = "let list of listFilter" [value]='list.value' >{{ list.name | titlecase }}</mat-option>
+            </mat-select>
+          </mat-form-field> 
+        </form>
+      </div>
+      <div class="item-two">
+          <div class="header-flex shadow-container">
+            <div class="content-header">
+              <h5 style="margin: 0;">Date return membership</h5>
+              <h5 style="margin-bottom: 0; color: red;">{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} in {{ dateReturnInvest.day }} days </h5>
+            </div>
+            <div class="content-header">
+              <h5 style="margin: 0;">Membership Rewards 3x</h5>
+              <h5>{{membership3X | number:'1.2'}}</h5>
+            </div>
+            <div class="content-header">
+              <h5 style="margin: 0;">Recompense Final</h5>
+              <h5>{{ recompenseFinal | number:'1.2'}}</h5>
+            </div>
+          </div>
+        <div class="shadow-container">
+              <div class="mat-elevation-z8 example-container">
+              <table #table mat-table [dataSource]="dataSource">
 
-    </form>
-    </div> 
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+                <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr>
+                <tr mat-footer-row *matFooterRowDef="['disclaimer']" [class.hide]="dataSource.filteredData.length != 0"></tr>
+                <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make': row.dailyRewards >= 50}"></tr> -->
+                  
+                        <ng-container matColumnDef="#">
+                          <th mat-header-cell *matHeaderCellDef [class.hide]="select =='all' || ''">#</th>
+                          <td mat-cell [class.hide]="select =='all' || '' " *matCellDef="let i=index" >{{i+1}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="day">
+                          <th mat-header-cell *matHeaderCellDef> Day </th>
+                          <td mat-cell *matCellDef="let val"> {{val.days}} </td>
+                        </ng-container>
 
-<div style="box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);">
-    <div class="mat-elevation-z8 example-container">
-    <!-- <div class="mat-elevation-z8"> -->
-    <table #table mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="date">
+                          <th mat-header-cell *matHeaderCellDef> Date </th>
+                          <td mat-cell *matCellDef="let days"> {{days.date | date : "dd/MM/yyyy"}} </td>
+                        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-      <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr>
-      <tr mat-footer-row *matFooterRowDef="['disclaimer']" [class.hide]="dataSource.filteredData.length != 0"></tr>
-      <!-- <tr mat-footer-row *matFooterRowDef="['paginator']"></tr> -->
+                        <ng-container matColumnDef="amount">
+                          <th mat-header-cell *matHeaderCellDef> amount </th>
+                          <td mat-cell *matCellDef="let val"> {{val.amount | number:'1.2'}}</td>
+                        </ng-container>
 
-      <!-- <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'make': row.dailyRewards >= 50}"></tr> -->
-        
-              <ng-container matColumnDef="#">
-                <th mat-header-cell *matHeaderCellDef [class.hide]="select =='all' || ''">#</th>
-                <td mat-cell [class.hide]="select =='all' || '' " *matCellDef="let i=index" >{{i+1}} </td>
-              </ng-container>
-              
+                        <ng-container matColumnDef="dailyInterest">
+                            <th mat-header-cell *matHeaderCellDef> daily Interest</th>
+                            <td mat-cell *matCellDef="let val"> {{val.dailyInterest | number : '1.2'}} </td>
+                        </ng-container>
 
-              <ng-container matColumnDef="day">
-                <th mat-header-cell *matHeaderCellDef> Day </th>
-                <td mat-cell *matCellDef="let val"> {{val.days}} </td>
-              </ng-container>
+                        <ng-container matColumnDef="dailyRewards" >
+                          <th mat-header-cell *matHeaderCellDef> Daily Rewards </th>
+                          <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
+                        </ng-container>
 
-              <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef> Date </th>
-                <td mat-cell *matCellDef="let days"> {{days.date | date : "dd/MM/yyyy"}} </td>
-              </ng-container>
+                        <ng-container matColumnDef="rebuy">
+                          <th mat-header-cell *matHeaderCellDef> Rebuy</th>
+                          <td mat-cell *matCellDef="let val"   [ngClass]="{'marker': val.rebuy >= 50}"> {{ val.rebuy | number : '1.2'}} </td>
+                        </ng-container>
 
-              <ng-container matColumnDef="amount">
-                <th mat-header-cell *matHeaderCellDef> amount </th>
-                <td mat-cell *matCellDef="let val"> {{val.amount | number:'1.2'}}</td>
-              </ng-container>
+                        <ng-container matColumnDef="optionRebuy">
+                          <th mat-header-cell *matHeaderCellDef>¿Rebuy?</th>
+                          <td mat-cell *matCellDef="let val; let indice=index"> 
+                              <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days,indice+1)" color="primary" [class.hide]="val.rebuy < 50">
+                              </mat-checkbox>
+                          </td>
 
-              <ng-container matColumnDef="dailyInterest">
-                  <th mat-header-cell *matHeaderCellDef> daily Interest</th>
-                  <td mat-cell *matCellDef="let val"> {{val.dailyInterest | number : '1.2'}} </td>
-              </ng-container>
+                        </ng-container>
 
-              <ng-container matColumnDef="dailyRewards" >
-                <th mat-header-cell *matHeaderCellDef> Daily Rewards </th>
-                <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
-              </ng-container>
+                        <ng-container matColumnDef="balance">
+                          <th mat-header-cell *matHeaderCellDef> Membership Rewards Running Balance</th>
+                          <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2-2'}} </td>
+                        </ng-container>
 
-              <ng-container matColumnDef="rebuy">
-                <th mat-header-cell *matHeaderCellDef> Rebuy</th>
-                <td mat-cell *matCellDef="let val"   [ngClass]="{'marker': val.rebuy >= 50}"> {{ val.rebuy | number : '1.2'}} </td>
-              </ng-container>
+                        <ng-container matColumnDef="disclaimer" >
+                          <td mat-footer-cell *matFooterCellDef colspan="12" >
+                            No data matching the filter
+                          </td>
+                        </ng-container>
+              </table>
+              </div>
 
-              <ng-container matColumnDef="optionRebuy">
-                <th mat-header-cell *matHeaderCellDef>¿Rebuy?</th>
-                <td mat-cell *matCellDef="let val; let indice=index"> 
-                    <mat-checkbox [checked]="val.isCheck" (change)="check($event, val.days,indice+1)" color="primary" [class.hide]="val.rebuy < 50">
-                    </mat-checkbox>
-                </td>
+              <app-paginator 
+              [eventCheck]="eventCheck" 
+              [eventForm]="eventForm" 
+              [length]="600" 
+              [pageIndex]="0" 
+              [pageSize]="5" 
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              (page)="paginationChange($event)" 
+              [dataSource]="dataSource"
+              ></app-paginator>
 
-              </ng-container>
-
-              <ng-container matColumnDef="balance">
-                <th mat-header-cell *matHeaderCellDef> Membership Rewards Running Balance</th>
-                <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2-2'}} </td>
-              </ng-container>
-
-              <ng-container matColumnDef="disclaimer" >
-                <td mat-footer-cell *matFooterCellDef colspan="12" >
-                  No data matching the filter
-                </td>
-              </ng-container>
-    </table>
+            
+        </div>
     </div>
-
-    <app-paginator 
-    [eventCheck]="eventCheck" 
-    [eventForm]="eventForm" 
-    [length]="600" 
-    [pageIndex]="0" 
-    [pageSize]="25" 
-    [pageSizeOptions]="[5, 10, 25, 100]"
-		(page)="paginationChange($event)" 
-    [dataSource]="dataSource"
-     ></app-paginator>
-
-  
+  </div>
 </div>
 
 
