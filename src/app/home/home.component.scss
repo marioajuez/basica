@@ -89,7 +89,7 @@ input.example-right-align {
 }
 
 .example-container {
-  height: 60vh;
+  height: 70vh;
   width: auto;
   max-width: 100%;
   overflow: auto;
@@ -173,28 +173,43 @@ input.example-right-align {
       flex: 1;
       width: 100%;
   }
+  .body-content{
+      margin: 90px 20px 20px 20px !important;
+  }
+  .item-one{
+    margin: 20px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .example-container {
+    height: 60vh;
+  }
+  .header-flex{
+    margin: 20px 0 0px 0;
+  }
 }
 
 .flex{
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
   align-items: center;
   justify-content: center;
 }
 .item-one{
   flex: 0;
-  // border: 1px solid black;
-  margin: 20px 20px 20px 20px;
+  margin: 0px 20px 20px 20px;
   border-radius: 15px;
   box-sizing: border-box;
-  // box-sizing: border-box;
 
 }   
 
 mat-form-field {
-  padding: 15px;
+  padding: 0px 20px 0px 20px;
   width: 100%;
+}
+
+.item-one > form > mat-form-field:first-child{
+    padding-top: 20px !important;
 }
 
 .item-two{
@@ -208,3 +223,20 @@ mat-form-field {
   top: 0;
   z-index: 999999;
 }
+
+.body-content{
+  margin: 90px 20px 20px 20px;
+}
+
+.header-flex >.content-header:first-child{
+  padding-left: 5px;
+}
+
+.header-flex >.content-header:last-child{
+  padding-right: 5px;
+}
+// .header-flex
+
+// margin-right: 5px;
+// margin-top: 8px;
+

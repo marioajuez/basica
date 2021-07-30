@@ -6,7 +6,7 @@ import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
 
   {
-    path: '',
+    path:'',
     redirectTo: 'login',
     pathMatch: 'full'
   },
@@ -23,8 +23,6 @@ const routes: Routes = [
     path: "prueba",
     loadChildren: () => import('./prueba/prueba.module').then(m => m.PruebaModule),
   }
-
-  
 ];
 
 @NgModule({

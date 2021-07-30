@@ -1,14 +1,35 @@
 
   <mat-toolbar>
     <mat-toolbar-row>
-      <span>Hyperfund calculator</span>
+      <span>hyper calculator | colombia</span>
     </mat-toolbar-row>
   </mat-toolbar>
 
-<div style="margin: 20px;margin: 90px 20px 20px 20px"> 
+<div class="body-content"> 
+
+
   <div class="flex">
-      <div class="item-one shadow-container">
-        <form name="form" #f="ngForm">
+
+   
+      <div class="item-one">
+
+        <div class="header-flex shadow-container">
+          <!-- <div class="content-header">
+            <h5 style="margin: 0;">Date return membership</h5>
+            <h5 style="margin-bottom: 0; color: red;">{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} in {{ dateReturnInvest.day }} days </h5>
+          </div> -->
+          <div class="content-header">
+            <h5 style="margin: 0;">Start Membership Rewards 3x</h5>
+            <h5>{{membership3X | number:'1.2'}}</h5>
+          </div>
+          <div class="content-header">
+            <h5 style="margin: 0;">Recompense Final</h5>
+            <h5>{{ recompenseFinal | number:'1.2'}}</h5>
+          </div>
+        </div>
+
+     
+        <form name="form" #f="ngForm" class="shadow-container">
           <mat-form-field appearance="fill">
             <mat-label>Date initial</mat-label>
             <input matInput   
@@ -22,12 +43,12 @@
               #date="ngModel"
             >
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-datepicker touchUi  #picker></mat-datepicker>
 
             <mat-error *ngIf="date.invalid && (date.dirty || date.touched)">
 
                   <div *ngIf="date.errors?.required">
-                        campo Obligatorio
+                        required field
                   </div>
             </mat-error>
           </mat-form-field>
@@ -48,18 +69,18 @@
               pattern="[0-9]+"
               required
             >
-            <span matPrefix>$&nbsp;</span>
+            <span matPrefix>HU&nbsp;</span>
             <span matSuffix>.00</span>
             
           <mat-error class="message-block" *ngIf="membership.invalid && (membership.dirty || membership.touched)">
               <div class="error-message" *ngIf="membership.errors.required">
-                    campo Obligatorio
+                  required field
               </div>
               <div class="error-message" *ngIf="membership.errors.min && !membership.errors.pattern">
-                valor minimo 300
+                  minimum value 300
               </div>
               <div class="error-message" *ngIf="membership.errors.pattern || (membership.errors.min && membership.errors.pattern)">
-                solo numeros
+                only numbers
               </div>
           </mat-error>
           </mat-form-field>
@@ -83,20 +104,20 @@
         </form>
       </div>
       <div class="item-two">
-          <div class="header-flex shadow-container">
-            <div class="content-header">
-              <h5 style="margin: 0;">Date return membership</h5>
-              <h5 style="margin-bottom: 0; color: red;">{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} in {{ dateReturnInvest.day }} days </h5>
-            </div>
-            <div class="content-header">
-              <h5 style="margin: 0;">Membership Rewards 3x</h5>
-              <h5>{{membership3X | number:'1.2'}}</h5>
-            </div>
-            <div class="content-header">
-              <h5 style="margin: 0;">Recompense Final</h5>
-              <h5>{{ recompenseFinal | number:'1.2'}}</h5>
-            </div>
+        <!-- <div class="header-flex shadow-container">
+          <div class="content-header">
+            <h5 style="margin: 0;">Date return membership</h5>
+            <h5 style="margin-bottom: 0; color: red;">{{ dateReturnInvest.date | date : "dd/MM/yyyy" }} in {{ dateReturnInvest.day }} days </h5>
           </div>
+          <div class="content-header">
+            <h5 style="margin: 0;">Membership Rewards 3x</h5>
+            <h5>{{membership3X | number:'1.2'}}</h5>
+          </div>
+          <div class="content-header">
+            <h5 style="margin: 0;">Recompense Final</h5>
+            <h5>{{ recompenseFinal | number:'1.2'}}</h5>
+          </div>
+        </div> -->
         <div class="shadow-container">
               <div class="mat-elevation-z8 example-container">
               <table #table mat-table [dataSource]="dataSource">
@@ -126,12 +147,12 @@
                         </ng-container>
 
                         <ng-container matColumnDef="dailyInterest">
-                            <th mat-header-cell *matHeaderCellDef> daily Interest</th>
+                            <th mat-header-cell *matHeaderCellDef>Daily Rewards</th>
                             <td mat-cell *matCellDef="let val"> {{val.dailyInterest | number : '1.2'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="dailyRewards" >
-                          <th mat-header-cell *matHeaderCellDef> Daily Rewards </th>
+                          <th mat-header-cell *matHeaderCellDef> Daily Rewards Running Balance </th>
                           <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
                         </ng-container>
 
@@ -162,16 +183,26 @@
               </table>
               </div>
 
-              <app-paginator 
+              <!-- <app-paginator 
               [eventCheck]="eventCheck" 
               [eventForm]="eventForm" 
               [length]="600" 
               [pageIndex]="0" 
-              [pageSize]="5" 
-              [pageSizeOptions]="[5, 10, 25, 100]"
+              [pageSize]="25" 
+              [pageSizeOptions]="[10, 25 ,50, 100]"
               (page)="paginationChange($event)" 
               [dataSource]="dataSource"
-              ></app-paginator>
+              ></app-paginator> -->
+
+              <mat-paginator
+                [length]="600"
+                [pageIndex]="0" 
+                [pageSize]="25" 
+                [pageSizeOptions]="[10, 25 ,50, 100]"
+                (page)="paginationChange($event)" 
+                showFirstLastButtons
+                >
+              </mat-paginator>
 
             
         </div>

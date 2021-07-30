@@ -77,6 +77,10 @@ export class HomeComponent implements OnInit {
     this.dataSource.filterPredicate = this.createFilter();
   }
 
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
 
   ngOnInit() {
     this.returnInvestmentDate();
