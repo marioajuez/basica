@@ -1,18 +1,13 @@
 
   <mat-toolbar>
     <mat-toolbar-row>
-      <span>hyper calculator | colombia</span>
+      <span>Hyper Calculator | Colombia</span>
     </mat-toolbar-row>
   </mat-toolbar>
 
 <div class="body-content"> 
-
-
   <div class="flex">
-
-   
       <div class="item-one">
-
         <div class="header-flex shadow-container">
           <!-- <div class="content-header">
             <h5 style="margin: 0;">Date return membership</h5>
@@ -22,10 +17,10 @@
             <h5 style="margin: 0;">Start Membership Rewards 3x</h5>
             <h5>{{membership3X | number:'1.2'}}</h5>
           </div>
-          <div class="content-header">
+          <!-- <div class="content-header">
             <h5 style="margin: 0;">Recompense Final</h5>
             <h5>{{ recompenseFinal | number:'1.2'}}</h5>
-          </div>
+          </div> -->
         </div>
 
      
@@ -65,7 +60,7 @@
               value="{{userData.membership}}"
 
               #membership="ngModel"
-              min="300"
+              min="50"
               pattern="[0-9]+"
               required
             >
@@ -77,7 +72,7 @@
                   required field
               </div>
               <div class="error-message" *ngIf="membership.errors.min && !membership.errors.pattern">
-                  minimum value 300
+                  minimum value 50
               </div>
               <div class="error-message" *ngIf="membership.errors.pattern || (membership.errors.min && membership.errors.pattern)">
                 only numbers

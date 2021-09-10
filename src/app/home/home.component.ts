@@ -173,7 +173,7 @@ export class HomeComponent implements OnInit {
       data.rebuy =  parseFloat((data.dailyRewards / 50.0).toString().split('.')[0]) * 50.0; // se obtiene el valor de la recompra
     }
     this.recompenseFinal = this.table[this.table.length - 1].membershipBalance;
-    console.log(this.recompenseFinal);
+    // console.log(this.recompenseFinal);
     this.returnInvestmentDate();
   }
 

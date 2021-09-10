@@ -11,6 +11,8 @@ export class MinValidatorDirective implements Validator {
 
     validate(control: AbstractControl): { [key: string]: any } {
 
+        // console.log(control)
+
         return Validators.min(this.min)(control);
     }
 }
