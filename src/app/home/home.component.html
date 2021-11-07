@@ -3,7 +3,16 @@
 <div class="color-background" >
   <mat-toolbar>
     <mat-toolbar-row>
-      <span>Hyper Calculator | Colombia</span>
+      <span style="width: 80%;"> Hyper Calculator</span>
+      <!-- <span style="font-size: 75%;">ES</span> -->
+      <div style="display: flex;
+      width: 20%;
+      justify-content: space-around;
+      "
+      
+      >
+      <span  (click)="changeLanguaje($event)" style=" font-size: 75%;cursor: pointer;"*ngFor="let lang of this.langs" value =lang> {{ lang | uppercase}}</span>
+      </div>
     </mat-toolbar-row>
   </mat-toolbar>
 
@@ -13,15 +22,15 @@
         <div class="header-flex shadow-container">
  
           <div class="content-header">
-            <h5 style="margin: 0;">Start Membership Rewards 3x</h5>
-            <h5 *ngIf="f.form.valid">{{membership3X | number:'1.2'}}</h5>
-            <h5 *ngIf="!f.form.valid">{{'0' | number:'1.2'}}</h5>
+            <span style="margin: 0;">{{'start_rewards3x'| translate }}</span>
+            <span *ngIf="f.form.valid">{{membership3X | number:'1.2'}}</span>
+            <span *ngIf="!f.form.valid">{{'0' | number:'1.2'}}</span>
           </div>
         </div>
         
         <form name="form" #f="ngForm" class="shadow-container">
           <mat-form-field appearance="fill">
-            <mat-label>Date initial</mat-label>
+            <mat-label>{{'date_initial' | translate }}</mat-label>
             <input matInput   
               name = "date"
               [matDatepicker]="picker"
@@ -33,16 +42,21 @@
             >
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker touchUi  #picker></mat-datepicker>
-            <mat-error *ngIf="date.invalid && (date.dirty || date.touched)">
-                  <div *ngIf="date.errors?.required">
-                        required field
-                  </div>
-            </mat-error>
+            <mat-error *ngIf="date.invalid && (date.dirty || date.touched)" class="container-error">
+              <div *ngIf="date.errors?.required">
+                {{"required_field" | translate}}
+
+              </div>
+          </mat-error>
           </mat-form-field>
+  
+
+   
+          <!-- </div> -->
 
 
           <mat-form-field appearance="fill" floatLabel="always">
-            <mat-label>Starting Membership</mat-label>
+            <mat-label>{{ 'start_membership' | translate}}</mat-label>
             <input matInput 
               class="example-right-align" 
               placeholder="0"
@@ -61,13 +75,15 @@
             
           <mat-error class="message-block" *ngIf="membership.invalid && (membership.dirty || membership.touched)">
               <div class="error-message" *ngIf="membership.errors.required">
-                  required field
+                  {{"required_field" | translate}}
               </div>
               <div class="error-message" *ngIf="membership.errors.min && !membership.errors.pattern">
-                  minimum value 50
+                {{"min_value_field" | translate}}
+                  
               </div>
               <div class="error-message" *ngIf="membership.errors.pattern || (membership.errors.min && membership.errors.pattern)">
-                only numbers
+                {{"only_numbers" | translate}}
+
               </div>
           </mat-error>
         </mat-form-field>
@@ -90,37 +106,37 @@
                 <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr>
                
                         <ng-container matColumnDef="day">
-                          <th mat-header-cell *matHeaderCellDef> Day </th>
+                          <th mat-header-cell *matHeaderCellDef> {{'day' | translate}} </th>
                           <td mat-cell *matCellDef="let val"> {{val.days}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="date">
-                          <th mat-header-cell *matHeaderCellDef> Date </th>
+                          <th mat-header-cell *matHeaderCellDef> {{'date' | translate}} </th>
                           <td mat-cell *matCellDef="let days"> {{days.date | date : "dd/MM/yyyy"}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="amount">
-                          <th mat-header-cell *matHeaderCellDef> amount </th>
+                          <th mat-header-cell *matHeaderCellDef> {{ 'amount' | translate}}</th>
                           <td mat-cell *matCellDef="let val"> {{val.amount | number:'1.2'}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="dailyInterest">
-                            <th mat-header-cell *matHeaderCellDef>Daily Rewards</th>
+                            <th mat-header-cell *matHeaderCellDef>{{'daily_rewards' | translate}}</th>
                             <td mat-cell *matCellDef="let val"> {{val.dailyInterest | number : '1.2'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="dailyRewards" >
-                          <th mat-header-cell *matHeaderCellDef> Daily Rewards Running Balance </th>
+                          <th mat-header-cell *matHeaderCellDef> {{'daily_rewards_running_balance' | translate}} </th>
                           <td mat-cell *matCellDef="let val"> {{val.dailyRewards | number : '1.2'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="rebuy">
-                          <th mat-header-cell *matHeaderCellDef> Rebuy</th>
+                          <th mat-header-cell *matHeaderCellDef> {{'rebuy' | translate}}</th>
                           <td mat-cell *matCellDef="let val"   [ngClass]="{'marker': val.rebuy >= 50}"> {{ val.rebuy | number : '1.2'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="balance">
-                          <th mat-header-cell *matHeaderCellDef> Membership Rewards Running Balance</th>
+                          <th mat-header-cell *matHeaderCellDef> {{'membership_rewards_running_balance' | translate}}</th>
                           <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2-2'}} </td>
                         </ng-container>
 
@@ -154,7 +170,16 @@
   </div>
 </div>
 
+
 </div>
+
+<div class="footer"> 
+  <mat-label >
+    {{"made_in" | translate}} ®
+  </mat-label>
+</div>
+
+
 
 
 

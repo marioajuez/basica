@@ -3,6 +3,7 @@ import {ChangeDetectorRef, Component,ElementRef,EventEmitter,OnInit,Output,ViewC
 import { FormGroup, FormControl, NgForm } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -55,10 +56,14 @@ export class HomeComponent implements OnInit {
   private dailyRewards;
   private membershipBalance
 
-
+// es - en -fr
+langs = []
 
 // --------------------------------------------
-  constructor() {
+  constructor(
+    private translate: TranslateService
+
+  ) {
     this.initilizateTable();
     this.dataSource = new MatTableDataSource(this.table);
   }
@@ -69,7 +74,14 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit() {
+    this.langs = this.translate.getLangs()
+  }
 
+  changeLanguaje(event){
+    // console.log(event.target.attributes.value.nodeValue);
+    const lang = event.target.innerText.toLowerCase();
+    console.log(lang);
+    this.translate.use(lang);
   }
 
   protected initilizateTable() {

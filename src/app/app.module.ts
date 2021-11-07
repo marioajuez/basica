@@ -8,12 +8,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { DirectivesModule } from './directives/directives.module';
-import { HttpClientModule } from '@angular/common/http';
+
 
 import { ComponentsModule } from './components/components.module';
 import { MaterialModule } from './components/material.module';
 
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 @NgModule({
   declarations: [
     AppComponent
@@ -29,7 +36,14 @@ import { MaterialModule } from './components/material.module';
     DirectivesModule,
 
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [],
 

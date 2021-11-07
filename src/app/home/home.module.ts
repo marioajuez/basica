@@ -7,6 +7,7 @@ import { ComponentsModule } from '../components/components.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../components/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -14,8 +15,8 @@ import { MaterialModule } from '../components/material.module';
   imports: [
     CommonModule,
     HomeRoutingModule,
+    TranslateModule,
 
-    
     ComponentsModule,
     MaterialModule,
     DirectivesModule,
