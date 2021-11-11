@@ -7,13 +7,8 @@ $color-hyper: #7c3ec9;
 
 .color-background{
   background: #ededed;
-  // background: grey;
   height: 100vh;
 }
-
-// :host{
-//   background: yellowgreen; 
-// }
 
 table, mat-table{
     width: 100%;
@@ -196,17 +191,104 @@ form{
   flex-direction: column;
 }
 
+
+
+.flex{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.item-one{
+  flex: 0;
+  margin: 0px 20px 20px 20px;
+  border-radius: 15px;
+  box-sizing: border-box;
+
+}   
+
+mat-form-field {
+  padding: 0px 20px 0px 20px;
+  width: 100%;
+}
+
+.item-one > form > mat-form-field:first-child{
+    padding-top: 20px;
+}
+
+.item-two{
+  flex: 1;
+}
+
+.mat-toolbar{
+  
+  background-color: $color-hyper; 
+  position: fixed;
+  top: 0;
+  z-index: 999999;
+  color: white;
+}
+
+.body-content{
+
+  padding: 90px 20px 20px 20px;
+}
+
+// .body-content
+
+
+
+.header-flex >.content-header:first-child{
+  padding-left: 15px;
+}
+
+.header-flex >.content-header:last-child{
+  padding-right: 15px;
+}
+
+.footer{
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+}
+// .header-flex
+
+// margin-right: 5px;
+// margin-top: 8px;
+
 @media only screen and (max-width: $md) {
 
-  mat-form-field .mat-form-field {
-    &-underline {
-      position: relative;
-      bottom: auto;
-    }
-    &-subscript-wrapper {
-      position: static;
-    }
+  .toolbar-title{
+    width: 70%!important;
   }
+
+  // .toolbar-languaje > span:active { color: black; } /* or whatever your default style is */
+  
+  .toolbar-languaje{
+    width: 30% !important;
+  }
+  .toolbar-languaje > span{
+    font-size: 75%;
+    cursor: pointer;
+    // border: solid 1px; 
+    display: flex;
+    justify-content: none;
+    padding-right: 7px; padding-left: 7px;
+  }
+
+  td.mat-cell{
+    padding-right: 0px !important;
+}
+
+th.mat-header-cell {
+  text-align: right;
+  justify-content: flex-end;
+}
+// ::ng-deep th.mat-header-cell{
+//     width: 0 !important;
+//   }
+
 
   tr.mat-header-row {
     height: auto;
@@ -223,6 +305,8 @@ form{
     width: 100%;
     text-align: center;
     font-size: 75%;
+    position: absolute;
+    bottom: 0;
   }
   // form ::ng-deep.mat-form-field-wrapper{
   //   margin-bottom: -1.25em !important;
@@ -375,67 +459,29 @@ form{
     height: 60vh;
   }
 
+  .example-container, .mat-table.mat-table{
+    min-width:auto !important ;
+    // width: auto;
+  }
+  th{
+    width: 0 !important;
+    white-space: pre-line !important;
+  }
+  td.mat-cell {
+    padding-right: 11px !important;
+  }
+}
+.toolbar-title{
+  width: 80%;
 }
 
-.flex{
+.toolbar-languaje{
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-.item-one{
-  flex: 0;
-  margin: 0px 20px 20px 20px;
-  border-radius: 15px;
-  box-sizing: border-box;
-
-}   
-
-mat-form-field {
-  padding: 0px 20px 0px 20px;
-  width: 100%;
+  width: 20%;
+  justify-content: space-around;
 }
 
-.item-one > form > mat-form-field:first-child{
-    padding-top: 20px;
+.toolbar-languaje > span{
+  font-size: 75%;
+  cursor: pointer;
 }
-
-.item-two{
-  flex: 1;
-}
-
-.mat-toolbar{
-  
-  background-color: $color-hyper; 
-  position: fixed;
-  top: 0;
-  z-index: 999999;
-  color: white;
-}
-
-.body-content{
-
-  padding: 90px 20px 20px 20px;
-}
-
-// .body-content
-
-
-
-.header-flex >.content-header:first-child{
-  padding-left: 5px;
-}
-
-.header-flex >.content-header:last-child{
-  padding-right: 5px;
-}
-
-.footer{
-  width: 100%;
-  text-align: center;
-}
-// .header-flex
-
-// margin-right: 5px;
-// margin-top: 8px;
-
