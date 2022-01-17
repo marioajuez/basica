@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
   
   userData = {
     date: new Date(),
-    membership: '300',
+    membership: '',
   };
 
 
@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
   totalDays = 600;
 
   timeout: any = null;
+  showTableFirstTime= false;
 
 // --------- variables to store calculations ------------
   private rebuy;
@@ -70,6 +71,9 @@ langs = []
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
+    this.ngForm.valueChanges.subscribe( resp => {
+        console.log(resp);
+    })
   }
 
 
@@ -78,9 +82,7 @@ langs = []
   }
 
   changeLanguaje(event){
-    // console.log(event.target.attributes.value.nodeValue);
     const lang = event.target.innerText.toLowerCase();
-    console.log(lang);
     this.translate.use(lang);
   }
 

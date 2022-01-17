@@ -8,6 +8,8 @@ import { DirectivesModule } from '../directives/directives.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../components/material.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
+
 
 
 @NgModule({
@@ -16,13 +18,13 @@ import { TranslateModule } from '@ngx-translate/core';
     CommonModule,
     HomeRoutingModule,
     TranslateModule,
-
     ComponentsModule,
     MaterialModule,
     DirectivesModule,
 
     ReactiveFormsModule,
     FormsModule,
+    TableVirtualScrollModule
   ]
 })
 export class HomeModule { }

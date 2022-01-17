@@ -16,6 +16,7 @@ import { MaterialModule } from './components/material.module';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
 
 
 export function createTranslateLoader(http: HttpClient) {
@@ -37,6 +38,8 @@ export function createTranslateLoader(http: HttpClient) {
 
     ReactiveFormsModule,
     FormsModule,
+
+    TableVirtualScrollModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

@@ -16,8 +16,9 @@
   "only_numbers":"Solo números",
   "min_value_field": "Valor mínimo 50",
 
-  "made_in":"hecho en colombia"
+  "made_in":"hecho en Colombia",
 
+  "footer_invalid": "No se ha realizado ningún cálculo"
 }
 
 

@@ -3,7 +3,7 @@
 <div class="color-background" >
   <mat-toolbar>
     <mat-toolbar-row>
-      <span class="toolbar-title"> Hyper Calculator</span>
+      <!-- <span class="toolbar-title"> Rebuy Calculator</span> -->
       <div class = "toolbar-languaje" >
         <span  (click)="changeLanguaje($event)" 
         *ngFor="let lang of this.langs" value =lang> {{ lang | uppercase}}</span>
@@ -18,8 +18,7 @@
  
           <div class="content-header">
             <span style="margin: 0;">{{'start_rewards3x'| translate }}</span>
-            <span *ngIf="f.form.valid">{{membership3X | number:'1.2'}}</span>
-            <span *ngIf="!f.form.valid">{{'0' | number:'1.2'}}</span>
+            <span >{{ (( f.form.valid ) ? membership3X: '0' )| number }}</span>
           </div>
         </div>
         
@@ -44,12 +43,6 @@
               </div>
           </mat-error>
           </mat-form-field>
-  
-
-   
-          <!-- </div> -->
-
-
           <mat-form-field appearance="fill" floatLabel="always">
             <mat-label>{{ 'start_membership' | translate}}</mat-label>
             <input matInput 
@@ -90,15 +83,16 @@
         ">
           <button mat-raised-button  color="basic" style="width: 30%;">Calculate</button>
         </div> -->
-        </form>
+ </form>
       </div>
       <div class="item-two">
         <div class="shadow-container">
-              <div class="mat-elevation-z8 example-container">
+              <div class="mat-elevation-z8 container-table">
               <table #table mat-table [dataSource]="dataSource">
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
-                <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid"></tr>
+                <tr mat-row  *matRowDef="let row; columns: displayedColumns;" [class.hide] = "!f.form.valid "></tr>
+                <tr mat-footer-row *matFooterRowDef="['invalid']"  [class.hide] = "f.form.valid "></tr>
                
                         <ng-container matColumnDef="day">
                           <th mat-header-cell *matHeaderCellDef> {{'day' | translate}} </th>
@@ -135,52 +129,43 @@
                           <td mat-cell *matCellDef="let val"> {{ val.membershipBalance | number : '1.2-2'}} </td>
                         </ng-container>
 
+                        <ng-container matColumnDef="invalid">
+                          <td mat-footer-cell *matFooterCellDef colspan="12" >
+                            {{ 'footer_invalid' | translate}}
+                          </td>
+                        </ng-container>
+
               </table>
               </div>
 
-              <!-- <app-paginator 
-              [eventCheck]="eventCheck" 
-              [eventForm]="eventForm" 
-              [length]="600" 
-              [pageIndex]="0" 
-              [pageSize]="25" 
-              [pageSizeOptions]="[10, 25 ,50, 100]"
-              (page)="paginationChange($event)" 
-              [dataSource]="dataSource"
-              ></app-paginator> -->
-
-              <mat-paginator
+              <!-- <mat-paginator
                 [length]="600"
                 [pageIndex]="0" 
-                [pageSize]="100" 
+                [pageSize]="5" 
                 [pageSizeOptions]="[100,200]"
                 (page)="paginationChange($event)" 
                 showFirstLastButtons
                 >
-              </mat-paginator>
+              </mat-paginator> -->
 
             
         </div>
     </div>
   </div>
+  
+  <footer>
+    <mat-label >
+      {{"made_in" | translate}} ®
+    </mat-label>
+  </footer>
+  
 </div>
 
 
-<div class="footer"> 
-  <mat-label >
-    {{"made_in" | translate}} ®
-  </mat-label>
-</div> 
-
-
-
 </div>
-<!-- 
-<div class="footer"> 
-  <mat-label >
-    {{"made_in" | translate}} ®
-  </mat-label>
-</div> -->
+
+
+
 
 
 

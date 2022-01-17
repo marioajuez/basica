@@ -43,6 +43,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 
+
+
+
 @NgModule({
   declarations: [],
   imports: [
@@ -73,7 +76,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     MatDatepickerModule,
     MatRadioModule,
     MatTableModule,
-    MatGridListModule
+    MatGridListModule,
+    ScrollingModule
   ]
 })
 export class MaterialModule { }

@@ -115,5 +115,30 @@ th.mat-header-cell{
     z-index: 999;
 }
 
+
+.wrapper {
+    height: 300px;
+  }
+  
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  .col-sm {
+    width: 70px;
+  }
+  
+
+  .example-viewport {
+    height: 200px;
+    width: 200px;
+    border: 1px solid black;
+  }
+  
+  .example-item {
+    height: 50px;
+  }
+
   
 

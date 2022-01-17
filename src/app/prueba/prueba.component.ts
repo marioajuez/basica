@@ -1,6 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+
+
+import { TableVirtualScrollDataSource } from 'ng-table-virtual-scroll';
+
 
 
 const ELEMENT_DATA: any[] = [
@@ -26,23 +30,38 @@ const ELEMENT_DATA: any[] = [
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];
 
+const DATA = Array.from({length: 1000}, (v, i) => ({
+  id: i + 1,
+  name: `Element #${i + 1}`
+}));
+
 @Component({
   selector: 'app-prueba',
   templateUrl: './prueba.component.html',
-  styleUrls: ['./prueba.component.scss']
+  styleUrls: ['./prueba.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PruebaComponent implements OnInit {
 
-  constructor() { }
+  items = Array.from({length: 100000}).map((_, i) => `Item #${i}`);
 
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+  displayedColumns = ['id', 'name'];
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new TableVirtualScrollDataSource(DATA);
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  constructor() { 
+
+    console.log(DATA);
   }
+
+  // displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  // dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  // ngAfterViewInit() {
+  //   this.dataSource.paginator = this.paginator;
+  // }
 
 
   ngOnInit(): void {

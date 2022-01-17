@@ -7,6 +7,8 @@ import { ComponentsModule } from '../components/components.module';
 import { DirectivesModule } from '../directives/directives.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../components/material.module';
+import { TableVirtualScrollModule } from 'ng-table-virtual-scroll';
+
 
 
 @NgModule({
